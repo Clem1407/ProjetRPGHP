@@ -1,4 +1,8 @@
-package com.isep.hpah.core;
+package com.isep.hpah.core.character;
+import com.isep.hpah.core.House;
+import com.isep.hpah.core.Pet;
+import com.isep.hpah.core.Wand;
+
 import java.util.List;
 public class Wizard {
     private Pet pet;

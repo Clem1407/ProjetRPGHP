@@ -1,4 +1,6 @@
 package com.isep.hpah.core;
+import com.isep.hpah.core.character.Wizard;
+
 import java.util.Random;
 import java.util.List;
 import java.util.ArrayList;
