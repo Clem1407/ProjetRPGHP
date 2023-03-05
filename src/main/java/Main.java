@@ -16,11 +16,11 @@ public class Main {
         Core core = null;
         do {
             // Permet d'afficher la liste des baguettes magiques
-            System.out.println("You can choose between all these wands :");
+            System.out.println("You can choose between all these cores :");
             for (Core c : Core.values()) {
                 System.out.println("- " + c.getName());
             }
-            System.out.print("Enter the name of the wand that you want\n");
+            System.out.print("Enter the name of the core that you want\n");
             String coreName = scanner.nextLine();
             try {
                 core = Core.valueOf(coreName.toUpperCase().replaceAll("\\s", "_"));
@@ -63,6 +63,8 @@ public class Main {
                 "You have a " + wizard.getPet().getName() + " as a pet. \n" +
                 "Your wand has a " + wizard.getWand().getCore().getName() + " core.\n" +
                 "and it has a size of " + wizard.getWand().getSize() + "cm. \n" +
-                "You have been sorted into the " + wizard.getHouse().getName() + " house!");
+                "You have been sorted into the " + wizard.getHouse().getName() + " house! \n" +
+                "which represents the " + wizard.getHouse().getDescription() + " and \n" +
+                "was founded by " + wizard.getHouse().getFounder());
     }
 }
