@@ -1,4 +1,6 @@
 package com.isep.hpah.core.spells;
+import lombok.*;
+@Getter @Setter
 
 public class Spell {
     private String name;
@@ -11,15 +13,4 @@ public class Spell {
         this.damage = damage;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public int getDamage() {
-        return damage;
-    }
 }

@@ -1,5 +1,6 @@
 package com.isep.hpah.core;
-
+import lombok.*;
+@Getter @Setter
 public class House {
     private String name; //permet de retourner le nom de la maison
     private String description; //sa description
@@ -11,13 +12,4 @@ public class House {
         this.founder = founder;
     }
 
-    public String getName() {
-        return name;
-    }
-    public String getDescription() {
-        return description;
-    }
-    public String getFounder() {
-        return founder;
-    }
 }

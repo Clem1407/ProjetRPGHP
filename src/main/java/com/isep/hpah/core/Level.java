@@ -1,5 +1,10 @@
 package com.isep.hpah.core;
+
+import lombok.Getter;
+import lombok.Setter;
+
 //création d'une classe niveau pour simplification du programme
+@Getter  @Setter
 public class Level {
     private int id;
     private String place;
@@ -13,19 +18,4 @@ public class Level {
         this.description = description;
     }
 
-    public int getID() {
-        return id;
-    }
-
-    public String getPlace() {
-        return place;
-    }
-
-    public String getEnemy() {
-        return enemy;
-    }
-
-    public String getDescription() {
-        return description;
-    }
 }

@@ -1,6 +1,9 @@
 package com.isep.hpah.core;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.*;
+@Getter @Setter
+
 public class Potion {
     private String name;
     private int healthgain;
@@ -10,11 +13,4 @@ public class Potion {
         this.healthgain = healthgain;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public int getHealthgain() {
-        return healthgain;
-    }
 }

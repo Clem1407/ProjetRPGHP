@@ -7,6 +7,8 @@ import com.isep.hpah.core.spells.Spell;
 
 import java.util.List;
 import java.util.ArrayList;
+import lombok.*;
+@Getter @Setter
 public class Wizard {
     private String name;
     private Pet pet;
@@ -28,42 +30,6 @@ public class Wizard {
         this.maxhealth = 100;
         this.currenthealth = maxhealth;
         this.damage = 2;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Wand getWand() {
-        return wand;
-    }
-
-    public Pet getPet() {
-        return pet;
-    }
-
-    public House getHouse() {
-        return house;
-    }
-
-    public int getHealth() {
-        return currenthealth;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPet(Pet pet) {
-        this.pet = pet;
-    }
-
-    public void setWand(Wand wand) {
-        this.wand = wand;
-    }
-
-    public void setHouse(House house) {
-        this.house = house;
     }
 
     /*public Spell() {

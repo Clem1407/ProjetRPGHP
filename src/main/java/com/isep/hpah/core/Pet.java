@@ -1,5 +1,8 @@
 package com.isep.hpah.core;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public enum Pet {
     OWL("OWL"),
     RAT("RAT"),
@@ -8,12 +11,9 @@ public enum Pet {
     DOG("DOG"),
     HIPPOGRIFF("HIPPOGRIFF"),
     SNAKE("SNAKE");
-
+    @Getter @Setter
     private String name;
     Pet(String name) {
         this.name = name;
-    }
-    public String getName() {
-        return this.name;
     }
 }

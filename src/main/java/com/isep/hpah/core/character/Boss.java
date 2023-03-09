@@ -1,5 +1,6 @@
 package com.isep.hpah.core.character;
-
+import lombok.*;
+@Getter @Setter
 public class Boss {
     private String name;
     private int health;
@@ -9,11 +10,4 @@ public class Boss {
         this.health = health;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public int getHealth() {
-        return health;
-    }
 }
