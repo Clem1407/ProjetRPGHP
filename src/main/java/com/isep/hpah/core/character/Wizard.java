@@ -24,17 +24,51 @@ public class Wizard {
 
     public Wizard(String name, Pet pet, Wand wand, House house, List<Spell> knownSpells,
                   List<Potion> potions, int maxhealth, int currenthealth, int damage, double accuracy,
-                  double resistance ) {
+                  double resistance, int year ) {
         this.name = name;
         this.pet = pet;
         this.wand = wand;
         this.house = house;
-        this.knownSpells = new ArrayList<>();
+        this.knownSpells = new ArrayList<Spell>();
         this.potions = new ArrayList<>();
         this.maxhealth = maxhealth;
         this.currenthealth = maxhealth;
         this.damage = damage;
         this.accuracy = accuracy;
         this.resistance = resistance;
+    }
+
+    public List<Spell> getKnownSpells() {
+        return knownSpells;
+    }
+
+    public void learnSpell(Spell spell) {
+        knownSpells.add(spell);
+        System.out.println("You have learned the spell " + spell.getName() + "!");
+    }
+
+    public void increaseMaxHealth(int amount) {
+        this.maxhealth += amount;
+    }
+
+    public void increaseDamage(int amount) {
+        this.damage += amount;
+    }
+
+    public void heal(int amount, Potion potion) {
+        if (potion.isUsed()) {
+            System.out.println("This potion has already been used!");
+        } else {
+            potion.setUsed(true);
+            this.currenthealth = Math.min(this.currenthealth + amount, this.maxhealth);
+        }
+    }
+
+    public void usePotion(Potion potion, Wizard wizard) {
+        if (potion.isUsed()) {
+            System.out.println("This potion has already been used!");
+        } else {
+            wizard.heal(potion.getHealthgain(), potion);
+        }
     }
 }

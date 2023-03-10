@@ -4,8 +4,13 @@ import java.util.Random;
 import java.util.List;
 import java.util.ArrayList;
 
+import com.isep.hpah.core.spells.Spell;
+import lombok.*;
+
+@Getter @Setter
 public class Level extends AbstractLevel {
     private List<AbstractLevel> level;
+
 
     public Level() {
         super(1, "The Philosopher’s Stone", "Toilets of the dungeon", null, "You have to face the evil Troll who is in the toilet next to the Dungeon. To defeat him\n" +
@@ -77,4 +82,15 @@ public class Level extends AbstractLevel {
                         "are not ready."));
 
     }
+
+    public List<AbstractLevel> getLevels() {
+        return level;
+    }
+
+    public void runLevel(Level level) {
+        System.out.println("Hello, this is level number " + this.getId() + "which is called " + this.getName() +
+                " \n this level takes place in " + this.getPlace() + " you have to fight against " + this.getEnemy() +
+                " \n" + this.getDescription());
+    }
+
 }

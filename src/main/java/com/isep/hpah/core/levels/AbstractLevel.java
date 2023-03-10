@@ -7,15 +7,15 @@ import lombok.Setter;
 //création d'une classe AbstractLevel pour simplification du programme
 @Getter  @Setter
 public class AbstractLevel {
-    private int id;
+    public int id;
     private String name;
     private String place;
     private List<AbstractEnemy> enemy;
     private String description;
 
     public AbstractLevel(int id,String name, String place, List<AbstractEnemy> enemy, String description) {
-        this.name = name;
         this.id = id;
+        this.name = name;
         this.place = place;
         this.enemy = enemy;
         this.description = description;

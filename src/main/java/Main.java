@@ -1,7 +1,11 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Random;
 import com.isep.hpah.core.*;
 import com.isep.hpah.core.character.*;
+import com.isep.hpah.core.spells.Spell;
+import com.isep.hpah.core.potions.*;
+import com.isep.hpah.core.levels.*;
 import java.util.List;
 public class Main {
     public static void main(String[] args) {
@@ -33,6 +37,7 @@ public class Main {
         // Saisir la longueur de la baguette magique
         System.out.print("Enter the size of your wand in cm: ");
         int size = scanner.nextInt();
+        scanner.nextLine();
 
         Pet pet = null;
         do {
@@ -50,13 +55,19 @@ public class Main {
             }
         } while (pet == null);
 
-
         // Création de l'utilisateur avec ces choix
-        Wizard wizard = new Wizard(name, pet, new Wand(core, size), null);
+        Wizard wizard = new Wizard(name, pet, new Wand(core, size), null, new ArrayList<>(), new ArrayList<>(), 100, 100, 10, 0.8, 0.2, 1 );
 
         // Assignation de la maison maison au hasard avec le chapeau magique
         SortingHat sortingHat = new SortingHat();
         sortingHat.assignHouse(wizard);
+
+        // Ajouter le premier sort dès la création du sorcier
+        wizard.learnSpell(Spell.getSpells().get(0));
+
+        //Appel la liste de potions
+        PotionRepository potionRepository = new PotionRepository();
+        List<Potion> potions = potionRepository.getPotions();
 
         // Afficher les informations de l'utilisateur
         System.out.println("Welcome, " + wizard.getName() + " to the wizard world! \n" +
@@ -65,6 +76,18 @@ public class Main {
                 "and it has a size of " + wizard.getWand().getSize() + "cm. \n" +
                 "You have been sorted into the " + wizard.getHouse().getName() + " house! \n" +
                 "which represents the " + wizard.getHouse().getDescription() + " and \n" +
-                "was founded by " + wizard.getHouse().getFounder());
+                "was founded by " + wizard.getHouse().getFounder() + "\n" +
+                "for the moment you only know the spell : " + wizard.getKnownSpells().get(0).getName() + "\n" +
+                "this is the list of your potions, but be careful you can only use each potions one time ");
+                for (Potion potion : potions) {
+                System.out.println("- " + potion.getName() + " (+" + potion.getHealthgain() + " health)");
+                }
+
+        Level Level1 = new Level();
+        //Afficher le début du jeu, le premier niveau
+        System.out.println("Welcome to your first year at Hogwarts School of Witchcraft and Wizardry! \n" +
+                "You will face a variety of challenges and enemies throughout your education, and this is just the beginning. \n" +
+                "Are you ready for your first challenge?\n");
+        Level1.runLevel(Level.getLevels().get(0));
     }
 }
