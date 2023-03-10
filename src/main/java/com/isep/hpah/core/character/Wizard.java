@@ -1,7 +1,7 @@
 package com.isep.hpah.core.character;
 import com.isep.hpah.core.House;
 import com.isep.hpah.core.Pet;
-import com.isep.hpah.core.Potion;
+import com.isep.hpah.core.potions.*;
 import com.isep.hpah.core.Wand;
 import com.isep.hpah.core.spells.Spell;
 
@@ -19,22 +19,22 @@ public class Wizard {
     private int maxhealth;
     private int currenthealth;
     private int damage;
+    private double accuracy;
+    private double resistance;
 
-    public Wizard(String name, Pet pet, Wand wand, House house) {
+    public Wizard(String name, Pet pet, Wand wand, House house, List<Spell> knownSpells,
+                  List<Potion> potions, int maxhealth, int currenthealth, int damage, double accuracy,
+                  double resistance ) {
         this.name = name;
         this.pet = pet;
         this.wand = wand;
         this.house = house;
         this.knownSpells = new ArrayList<>();
         this.potions = new ArrayList<>();
-        this.maxhealth = 100;
+        this.maxhealth = maxhealth;
         this.currenthealth = maxhealth;
-        this.damage = 2;
+        this.damage = damage;
+        this.accuracy = accuracy;
+        this.resistance = resistance;
     }
-
-    /*public Spell() {
-        if (getHouse().getName() == "Gryffondor") {
-            knownSpells.add(new Spell("Sword of Gryffondor","blablabla",10));
-        }
-    }*/
 }

@@ -52,7 +52,7 @@ public class Main {
 
 
         // Création de l'utilisateur avec ces choix
-        Wizard wizard = new Wizard(name,pet, new Wand(core, size), null);
+        Wizard wizard = new Wizard(name, pet, new Wand(core, size), null);
 
         // Assignation de la maison maison au hasard avec le chapeau magique
         SortingHat sortingHat = new SortingHat();
