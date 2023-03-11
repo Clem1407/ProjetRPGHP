@@ -83,11 +83,11 @@ public class Main {
                 System.out.println("- " + potion.getName() + " (+" + potion.getHealthgain() + " health)");
                 }
 
-        Level Level1 = new Level();
         //Afficher le début du jeu, le premier niveau
         System.out.println("Welcome to your first year at Hogwarts School of Witchcraft and Wizardry! \n" +
                 "You will face a variety of challenges and enemies throughout your education, and this is just the beginning. \n" +
                 "Are you ready for your first challenge?\n");
-        Level1.runLevel(Level.getLevels().get(0));
+        Level level = Level.createLevel(3);
+        level.runLevel(3);
     }
 }

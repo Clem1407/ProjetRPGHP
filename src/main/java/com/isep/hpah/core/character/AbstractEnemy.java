@@ -18,4 +18,10 @@ public class AbstractEnemy {
         this.resistance = resistance;
         this.number_of_enemies = number_of_enemies;
     }
+
+    @Override
+    public String toString() {
+        return  "You will have to fight against " + name + " which has a health of " + health ;
+    }
+
 }
