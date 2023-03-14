@@ -7,24 +7,26 @@ import com.isep.hpah.core.spells.Spell;
 import com.isep.hpah.core.potions.*;
 import com.isep.hpah.core.levels.*;
 import java.util.List;
+import static com.isep.hpah.core.PrettyText.printSeparator;
+
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
         // Demander le nom de l'utilisateur
-        System.out.print("Welcome to Harry Potter at Home, the wizarding RPG. Do you have what it takes to be the greatest\n" +
+        System.out.print("\nWelcome to Harry Potter at Home, the wizarding RPG. Do you have what it takes to be the greatest\n" +
                 "wizards? Can you meet all the challenges? Let's get started!\n" +
                 "Your goal is to complete your education at Hogwarts. Each year will be filled with challenges.\n" +
-                "What's your name?\n");
+                "\nWhat's your name?\n");
         String name = scanner.nextLine();
         Core core = null;
         do {
             // Permet d'afficher la liste des baguettes magiques
-            System.out.println("You can choose between all these cores :");
+            System.out.println("\nYou can choose between all these cores :");
             for (Core c : Core.values()) {
                 System.out.println("- " + c.getName());
             }
-            System.out.print("Enter the name of the core that you want\n");
+            System.out.print("\nEnter the name of the core that you want\n");
             String coreName = scanner.nextLine();
             try {
                 core = Core.valueOf(coreName.toUpperCase().replaceAll("\\s", "_"));
@@ -35,18 +37,18 @@ public class Main {
         } while (core == null);
 
         // Saisir la longueur de la baguette magique
-        System.out.print("Enter the size of your wand in cm: ");
+        System.out.print("\nEnter the size of your wand in cm: ");
         int size = scanner.nextInt();
         scanner.nextLine();
 
         Pet pet = null;
         do {
             // Afficher la liste des animaux
-            System.out.println("You can choose between all these pets");
+            System.out.println("\nYou can choose between all these pets");
             for (Pet p : Pet.values()) {
                 System.out.println("- " + p.getName());
             }
-            System.out.print("Which pet do you want ?\n");
+            System.out.print("\nWhich pet do you want ?\n");
             String petName = scanner.nextLine();
             try {
                 pet = Pet.valueOf(petName.toUpperCase().replaceAll("\\s", "_"));
@@ -62,32 +64,34 @@ public class Main {
         SortingHat sortingHat = new SortingHat();
         sortingHat.assignHouse(wizard);
 
-        // Ajouter le premier sort dès la création du sorcier
-        wizard.learnSpell(Spell.getSpells().get(0));
-
         //Appel la liste de potions
         PotionRepository potionRepository = new PotionRepository();
         List<Potion> potions = potionRepository.getPotions();
 
+        // Ajouter le premier sort dès la création du sorcier
+        wizard.learnSpell(Spell.getSpells().get(0));
+
         // Afficher les informations de l'utilisateur
-        System.out.println("Welcome, " + wizard.getName() + " to the wizard world! \n" +
+        printSeparator(100);
+        System.out.println("\nWelcome, " + wizard.getName() + " to the wizard world! \n" +
                 "You have a " + wizard.getPet().getName() + " as a pet. \n" +
                 "Your wand has a " + wizard.getWand().getCore().getName() + " core.\n" +
                 "and it has a size of " + wizard.getWand().getSize() + "cm. \n" +
                 "You have been sorted into the " + wizard.getHouse().getName() + " house! \n" +
                 "which represents the " + wizard.getHouse().getDescription() + " and \n" +
                 "was founded by " + wizard.getHouse().getFounder() + "\n" +
-                "for the moment you only know the spell : " + wizard.getKnownSpells().get(0).getName() + "\n" +
-                "this is the list of your potions, but be careful you can only use each potions one time ");
+                "\nCongrats! you have learned the spell : " + wizard.getKnownSpells().get(0).getName() + "\n" +
+                "\nThis is the list of your potions, but be careful you can only use each potions one time\n");
                 for (Potion potion : potions) {
                 System.out.println("- " + potion.getName() + " (+" + potion.getHealthgain() + " health)");
                 }
-
+        printSeparator(100);
         //Afficher le début du jeu, le premier niveau
-        System.out.println("Welcome to your first year at Hogwarts School of Witchcraft and Wizardry! \n" +
+        System.out.println("\nWelcome to your first year at Hogwarts School of Witchcraft and Wizardry! \n" +
                 "You will face a variety of challenges and enemies throughout your education, and this is just the beginning. \n" +
                 "Are you ready for your first challenge?\n");
-        Level level = Level.createLevel(3);
-        level.runLevel(3);
+        Level level = Level.createLevel(0);
+        level.runLevel(0, wizard);
+        printSeparator(100);
     }
 }

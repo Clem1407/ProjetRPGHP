@@ -1,5 +1,6 @@
 package com.isep.hpah.core.levels;
 import com.isep.hpah.core.character.*;
+import com.isep.hpah.core.*;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -8,6 +9,8 @@ import java.util.ArrayList;
 
 import com.isep.hpah.core.spells.Spell;
 import lombok.*;
+
+import static com.isep.hpah.core.PrettyText.printSeparator;
 
 @Getter @Setter
 public class Level extends AbstractLevel {
@@ -75,14 +78,25 @@ public class Level extends AbstractLevel {
         return enemies.size();
     }
 
-    public void runLevel(int id) {
+    public void runLevel(int id, Wizard wizard) {
         Level level = Level.createLevel(id);
         int numberOfEnemies = level.getNumberOfEnemies();
         System.out.println("This is level number : " + Level.createLevel(id).getId() +
                 "\nIt is : " + Level.createLevel(id).getName() + ", " + Level.createLevel(id).getDescription() +
-                "\nand it takes place in : " + Level.createLevel(id).getPlace() +
-                "\n there is " + numberOfEnemies + " enemy(ies) " +
-                "\n " + Level.createLevel(id).getEnemies().toString());
+                "\nand it takes place in : " + Level.createLevel(id).getPlace());
+        if (numberOfEnemies == 1) {
+            System.out.println("There is " + numberOfEnemies + " enemy" );
+        }
+        else if (numberOfEnemies > 1) {
+            System.out.println("There is " + numberOfEnemies + " enemies");
+        }
+        //va permettre de faire ressortir les enemies sous forme de String et pas de tableau
+        List<AbstractEnemy> enemies = Level.createLevel(id).getEnemies();
+        for (AbstractEnemy enemy : enemies) {
+            System.out.println(enemy.toString());
+            printSeparator(100);
+            Battle.startBattle(wizard, enemy);
+        }
     }
 
 }

@@ -2,17 +2,19 @@ package com.isep.hpah.core.character;
 import lombok.*;
 
 @Getter @Setter
-public class AbstractEnemy {
+public abstract class AbstractEnemy {
     private String name;
-    private int health;
+    private int maxhealth;
+    private int currenthealth;
     private int damage;
     private double accuracy;
     private double resistance;
     private int number_of_enemies;
 
-    public AbstractEnemy(String name, int health, int damage, double accuracy, double resistance, int number_of_enemies) {
+    public AbstractEnemy(String name, int maxhealth, int currenthealth, int damage, double accuracy, double resistance, int number_of_enemies) {
         this.name = name;
-        this.health = health;
+        this.maxhealth = maxhealth;
+        this.currenthealth = currenthealth;
         this.damage = damage;
         this.accuracy = accuracy;
         this.resistance = resistance;
@@ -21,7 +23,16 @@ public class AbstractEnemy {
 
     @Override
     public String toString() {
-        return  "You will have to fight against " + name + " which has a health of " + health ;
+        return  "You will have to fight against " + name + " which has a health of " + maxhealth;
+    }
+
+    public void setCurrentHealth(int currentHealth) {
+        this.currenthealth = currentHealth;
+    }
+
+    public void takeDamage(int damage) {
+        int healthAfterDamage = this.currenthealth - damage;
+        this.currenthealth = Math.max(healthAfterDamage, 0);
     }
 
 }

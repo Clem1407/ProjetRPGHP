@@ -1,7 +1,7 @@
 package com.isep.hpah.core.spells;
 import lombok.*;
 @Getter @Setter
-public class AbstractSpell {
+public abstract class AbstractSpell {
     private String name;
     private String description;
     private int damage;
