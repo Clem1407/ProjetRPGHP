@@ -95,8 +95,9 @@ public class Level extends AbstractLevel {
         for (AbstractEnemy enemy : enemies) {
             System.out.println(enemy.toString());
             printSeparator(100);
-            Battle.startBattle(wizard, enemy);
+            wizard.startBattle(enemy);
         }
     }
+
 
 }

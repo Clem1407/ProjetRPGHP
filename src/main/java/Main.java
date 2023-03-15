@@ -58,7 +58,7 @@ public class Main {
         } while (pet == null);
 
         // Création de l'utilisateur avec ces choix
-        Wizard wizard = new Wizard(name, pet, new Wand(core, size), null, new ArrayList<>(), new ArrayList<>(), 100, 100, 10, 0.8, 0.2, 1 );
+        Wizard wizard = new Wizard(name, pet, new Wand(core, size), null, new ArrayList<>(), new ArrayList<>(), 100, 100, 1, 1);
 
         // Assignation de la maison maison au hasard avec le chapeau magique
         SortingHat sortingHat = new SortingHat();
@@ -90,6 +90,7 @@ public class Main {
         System.out.println("\nWelcome to your first year at Hogwarts School of Witchcraft and Wizardry! \n" +
                 "You will face a variety of challenges and enemies throughout your education, and this is just the beginning. \n" +
                 "Are you ready for your first challenge?\n");
+        printSeparator(100);
         Level level = Level.createLevel(0);
         level.runLevel(0, wizard);
         printSeparator(100);
