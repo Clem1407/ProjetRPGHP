@@ -30,4 +30,9 @@ public abstract class AbstractEnemy {
         this.currenthealth = Math.max(healthAfterDamage, 0);
     }
 
+    @Override
+    public String toString() {
+        return "You will have to fight against " + name + " which has a health of " + maxhealth;
+    }
+
 }

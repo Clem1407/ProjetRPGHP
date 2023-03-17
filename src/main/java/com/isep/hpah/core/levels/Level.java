@@ -78,16 +78,6 @@ public class Level extends AbstractLevel {
         return enemies.size();
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder("You will have to fight against ");
-        for (AbstractEnemy enemy : enemies) {
-            sb.append(enemy.getName()).append(" which has a health of ");
-            sb.append(enemy.getMaxhealth());
-        }
-        sb.delete(sb.length() - 5, sb.length()); // Supprime le dernier " and "
-        return sb.toString();
-    }
 
     public static void runLevel(int id, Wizard wizard) {
         Level level = Level.createLevel(id);
