@@ -23,6 +23,4 @@ public class Enemy extends AbstractEnemy {
     public Enemy(String name, int maxhealth, int currenthealth, int damage, double accuracy, double resistance, int number_of_enemies) {
         super(name, maxhealth, currenthealth, damage, accuracy, resistance, number_of_enemies);
     }
-
-
 }

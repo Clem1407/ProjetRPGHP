@@ -78,6 +78,17 @@ public class Level extends AbstractLevel {
         return enemies.size();
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("You will have to fight against ");
+        for (AbstractEnemy enemy : enemies) {
+            sb.append(enemy.getName()).append(" which has a health of ");
+            sb.append(enemy.getMaxhealth());
+        }
+        sb.delete(sb.length() - 5, sb.length()); // Supprime le dernier " and "
+        return sb.toString();
+    }
+
     public static void runLevel(int id, Wizard wizard) {
         Level level = Level.createLevel(id);
         int numberOfEnemies = level.getNumberOfEnemies();
@@ -95,7 +106,7 @@ public class Level extends AbstractLevel {
         for (AbstractEnemy enemy : enemies) {
             System.out.println(enemy.toString());
             printSeparator(100);
-            wizard.startBattle(enemy);
+            wizard.startBattle(enemies);
         }
         wizard.setYear(wizard.getYear() + 1);
     }

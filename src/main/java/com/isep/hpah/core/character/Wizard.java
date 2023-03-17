@@ -103,20 +103,31 @@ public class Wizard {
             }
         }
         if (enemy.getCurrenthealth() <= 0) {
-            System.out.println("Well done !!! You defeated " + enemy.getName() + " !");
+            ;
         }
     }
 
-    public void startBattle(AbstractEnemy enemy) {
+    public void startBattle(List<AbstractEnemy> enemies) {
         Scanner scanner = new Scanner(System.in);
-        while (enemy.getCurrenthealth() > 0 && this.currenthealth > 0) {
+        int defeatedEnemies = 0;
+        while (defeatedEnemies < enemies.size() && this.currenthealth > 0) {
             System.out.println("It's your turn now !");
             System.out.println("What do you want to do ? (1) Cast a spell, (2) drink a potion");
             int choice = scanner.nextInt();
             switch (choice) {
                 case 1:
-                    attack(enemy);
-                    defend(enemy);
+                    for (AbstractEnemy enemy : enemies) {
+                        attack(enemy);
+                        defend(enemy);
+                        if (enemy.getCurrenthealth() <= 0) {
+                            System.out.println("Well done, you defeated " +
+                                    enemy.getName());
+                            defeatedEnemies++; // permet de compter le nombre d'ennemi dans le niveau
+                        }
+                        if (defeatedEnemies == enemies.size()) {
+                            break; // Sort de la boucle for si tous les ennemis sont vaincus
+                        }
+                    }
                     break;
                 case 2:
                     heal();
@@ -125,19 +136,20 @@ public class Wizard {
                     System.out.println("Invalid choice!");
                     break;
             }
-        }
-        if (enemy.getCurrenthealth() <= 0) {
-            printSeparator(100);
-            this.year++; // Augmente l'année du sorcier
-            System.out.println("You just finished your " + this.year + "at Hogwards, good job !");
-            this.learnSpell(Spell.getSpells().get(this.year)); // Ajoute le sort de l'année actuelle
-            System.out.println("Well done ! You have just learned a new spell, this spell is : " +
-                    this.getKnownSpells().get(this.year).getName());
-            Level.runLevel(this.year, this); // Lance le niveau suivant
-            enemy = null; // Réinitialise l'ennemi vaincu pour passer au prochain
+            if (defeatedEnemies == enemies.size()) {
+                printSeparator(100);
+                this.year++; // Augmente l'année du sorcier
+                System.out.println("You just finished your " + this.year + " year at Hogwards, good job !");
+                this.learnSpell(Spell.getSpells().get(this.year)); // Ajoute le sort de l'année actuelle
+                System.out.println("Well done ! You have just learned a new spell, this spell is : " +
+                        this.getKnownSpells().get(this.year).getName());
+                printSeparator(100);
+                Level.runLevel(this.year, this); // Lance le niveau suivant
+                enemies = null; // Réinitialise la liste d'ennemis pour passer au prochain niveau
+            }
         }
         if (this.currenthealth <= 0) {
-            System.out.println(enemy.getName() + " defeated you !");
+            System.out.println("You were defeated by the enemies!");
         }
     }
 
