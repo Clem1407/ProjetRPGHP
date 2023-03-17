@@ -78,7 +78,7 @@ public class Level extends AbstractLevel {
         return enemies.size();
     }
 
-    public void runLevel(int id, Wizard wizard) {
+    public static void runLevel(int id, Wizard wizard) {
         Level level = Level.createLevel(id);
         int numberOfEnemies = level.getNumberOfEnemies();
         System.out.println("This is level number : " + Level.createLevel(id).getId() +
@@ -97,6 +97,7 @@ public class Level extends AbstractLevel {
             printSeparator(100);
             wizard.startBattle(enemy);
         }
+        wizard.setYear(wizard.getYear() + 1);
     }
 
 

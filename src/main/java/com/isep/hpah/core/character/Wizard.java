@@ -4,10 +4,14 @@ import com.isep.hpah.core.Pet;
 import com.isep.hpah.core.potions.*;
 import com.isep.hpah.core.Wand;
 import com.isep.hpah.core.spells.Spell;
+import com.isep.hpah.core.levels.Level;
 import java.util.List;
 import java.util.ArrayList;
 import lombok.*;
 import java.util.Scanner;
+
+import static com.isep.hpah.core.PrettyText.printSeparator;
+
 @Getter @Setter
 public class Wizard {
     private String name;
@@ -19,19 +23,25 @@ public class Wizard {
     private int maxhealth;
     private int currenthealth;
     private double resistance;
+    private int year;
 
     public Wizard(String name, Pet pet, Wand wand, House house, List<Spell> knownSpells,
-                  List<Potion> potions, int maxhealth, int currenthealth,
-                  double resistance, int year ) {
+                  int maxhealth, int currenthealth,
+                  double resistance, int year) {
         this.name = name;
         this.pet = pet;
         this.wand = wand;
         this.house = house;
-        this.knownSpells = new ArrayList<Spell>();
+        this.knownSpells = new ArrayList<>();
         this.potions = new ArrayList<>();
         this.maxhealth = maxhealth;
         this.currenthealth = currenthealth;
         this.resistance = resistance;
+        this.year = year;
+
+        PotionRepository potionRepository = new PotionRepository();
+        List<Potion> availablePotions = potionRepository.getPotions();
+        this.potions.addAll(availablePotions);
     }
 
     public List<Spell> getKnownSpells() {
@@ -102,9 +112,7 @@ public class Wizard {
         while (enemy.getCurrenthealth() > 0 && this.currenthealth > 0) {
             System.out.println("It's your turn now !");
             System.out.println("What do you want to do ? (1) Cast a spell, (2) drink a potion");
-
             int choice = scanner.nextInt();
-
             switch (choice) {
                 case 1:
                     attack(enemy);
@@ -118,26 +126,35 @@ public class Wizard {
                     break;
             }
         }
+        if (enemy.getCurrenthealth() <= 0) {
+            printSeparator(100);
+            this.year++; // Augmente l'année du sorcier
+            System.out.println("You just finished your " + this.year + "at Hogwards, good job !");
+            this.learnSpell(Spell.getSpells().get(this.year)); // Ajoute le sort de l'année actuelle
+            System.out.println("Well done ! You have just learned a new spell, this spell is : " +
+                    this.getKnownSpells().get(this.year).getName());
+            Level.runLevel(this.year, this); // Lance le niveau suivant
+            enemy = null; // Réinitialise l'ennemi vaincu pour passer au prochain
+        }
         if (this.currenthealth <= 0) {
             System.out.println(enemy.getName() + " defeated you !");
         }
-
     }
 
     public void heal() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Here are all the potions");
-        List<Potion> availablePotions = PotionRepository.getPotions();
-        for (int i = 0; i < availablePotions.size(); i++) {
-            System.out.println(i + 1 + ". " + availablePotions.get(i).getName() + " (+" + availablePotions.get(i).getHealthgain() + " health)");
+        System.out.println("Here are all your potions:");
+        for (int i = 0; i < potions.size(); i++) {
+            Potion potion = potions.get(i);
+            System.out.println(i + 1 + ". " + potion.getName() + " (+" + potion.getHealthgain() + " health)");
         }
         System.out.print("Please choose the potion you want to use\n");
         int potionIndex = scanner.nextInt();
-        if (potionIndex < 1 || potionIndex > availablePotions.size()) {
+        if (potionIndex < 1 || potionIndex > potions.size()) {
             System.out.println("This isn't a valid choice");
             return;
         }
-        Potion chosenPotion = availablePotions.get(potionIndex - 1);
+        Potion chosenPotion = potions.get(potionIndex - 1);
         if (chosenPotion.isUsed()) {
             System.out.println("This potion has already been used");
             return;
@@ -147,7 +164,7 @@ public class Wizard {
             this.currenthealth = this.maxhealth;
         }
         chosenPotion.setUsed(true);
-        System.out.println("You used this potion " + chosenPotion.getName() + " which you now have " + this.currenthealth + " health");
+        System.out.println("You used the potion " + chosenPotion.getName() + " and now have " + this.currenthealth + " health");
     }
 
 }
