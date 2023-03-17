@@ -58,7 +58,7 @@ public class Main {
         } while (pet == null);
 
         // Création de l'utilisateur avec ces choix
-        Wizard wizard = new Wizard(name, pet, new Wand(core, size), null, new ArrayList<>(),  100, 100, 1, 0);
+        Wizard wizard = new Wizard(name, pet, new Wand(core, size), null, new ArrayList<>(),  100, 100, 3, 0);
 
         // Assignation de la maison maison au hasard avec le chapeau magique
         SortingHat sortingHat = new SortingHat();

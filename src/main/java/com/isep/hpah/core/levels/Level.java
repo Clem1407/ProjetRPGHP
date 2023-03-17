@@ -96,6 +96,8 @@ public class Level extends AbstractLevel {
         for (AbstractEnemy enemy : enemies) {
             System.out.println(enemy.toString());
             printSeparator(100);
+            if (wizard.getHouse().getName().equals("Ravenclaw")) {
+                System.out.println("Since you are a member of Ravenclaw, you are more precise"); }
             wizard.startBattle(enemies);
         }
         wizard.setYear(wizard.getYear() + 1);

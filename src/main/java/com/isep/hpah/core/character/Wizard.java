@@ -70,6 +70,11 @@ public class Wizard {
         // On calcule la précision en fonction du niveau donné en argument
         double precision = 1 - (1 - accuracy) / 2;
 
+        if (this.getHouse().getName().equals("Ravenclaw")) {
+            precision += 0.1;
+            System.out.println("Since you are a member of Ravenclaw, you are more precise");
+        }
+
         // On génère un nombre aléatoire entre 0 et 1 et on compare à la précision calculée
         return Math.random() < precision;
     }
@@ -79,6 +84,10 @@ public class Wizard {
         if (rollAccuracy(spell.getAccuracy())) {
             System.out.println("You cast " + spell.getName() + "!");
             int damage = spell.getDamage();
+            if (this.getHouse().getName().equals("Slytherin")) {
+                damage += 5;
+                System.out.println("Since you are a member of Slytherin, you do + 5 damage");
+            }
             enemy.takeDamage(damage);
             System.out.println("You did " + damage + " damage to the enemy!, it only has " + enemy.getCurrenthealth() + " left!");
         } else {
@@ -97,6 +106,10 @@ public class Wizard {
             if (rollAccuracy(accuracy)) {
                 System.out.println("The enemy attacked you and did " + enemy.getDamage() + " damage!");
                 this.currenthealth -= enemy.getDamage(); //this permet d'indiquer que cette variable appartient à Wizard
+                if (this.getHouse().getName().equals("Gryffondor")) {
+                    this.currenthealth += this.resistance;
+                    System.out.println("Since you are a member of Gryffondor, with your resistance, you're able to gain back " + getResistance() + " health points");
+                }
                 System.out.println("You have " + this.currenthealth + " health points left!");
             } else {
                 System.out.println("The enemy missed its attack!");
@@ -171,7 +184,12 @@ public class Wizard {
             System.out.println("This potion has already been used");
             return;
         }
-        this.currenthealth += chosenPotion.getHealthgain();
+        int healthGain = chosenPotion.getHealthgain();
+        if (this.getHouse().getName().equals("Hufflepuff")) {
+            healthGain += 10; // Permet de prendre l'exception si le membre est de la maison Hufflepuff
+            System.out.println("Since you are a member of Hufflepuff, you gain + 10 more points of health !");
+        }
+        this.currenthealth += healthGain;
         if (this.currenthealth > this.maxhealth) {
             this.currenthealth = this.maxhealth;
         }

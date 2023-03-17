@@ -16,7 +16,7 @@ public class Spell extends AbstractSpell {
     }
 
     static {
-        spells.add(new Spell("Wingardium Leviosa", "allows the caster to levitate an object or person.", 8, 0.9));
+        spells.add(new Spell("Wingardium Leviosa", "allows the caster to levitate an object or person.", 8, 0.7));
         spells.add(new Spell("Accio", "summon broomstick and summon various other objects", 10, 0.8));
         spells.add(new Spell("Expecto Patronum", " the spell takes the form of an animal that is unique to each wizard, reflecting their personality and innermost thoughts", 40, 0.7));
         spells.add(new Spell("fireworks", "type of explosive pyrotechnic device that is commonly used for entertainment or celebratory purposes", 100, 1));
