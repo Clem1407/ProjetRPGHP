@@ -82,14 +82,14 @@ public class Level extends AbstractLevel {
     public static void runLevel(int id, Wizard wizard) {
         Level level = Level.createLevel(id);
         int numberOfEnemies = level.getNumberOfEnemies();
-        System.out.println("This is level number : " + Level.createLevel(id).getId() +
+        System.out.println("\nThis is level number : " + Level.createLevel(id).getId() +
                 "\nIt is : " + Level.createLevel(id).getName() + ", " + Level.createLevel(id).getDescription() +
                 "\nand it takes place in : " + Level.createLevel(id).getPlace());
         if (numberOfEnemies == 1) {
             System.out.println("There is " + numberOfEnemies + " enemy" );
         }
         else if (numberOfEnemies > 1) {
-            System.out.println("There is " + numberOfEnemies + " enemies");
+            System.out.println("There is " + numberOfEnemies + " enemies\n");
         }
         //va permettre de faire ressortir les enemies sous forme de String et pas de tableau
         List<AbstractEnemy> enemies = Level.createLevel(id).getEnemies();

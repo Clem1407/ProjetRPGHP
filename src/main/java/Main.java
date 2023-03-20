@@ -7,7 +7,8 @@ import com.isep.hpah.core.spells.Spell;
 import com.isep.hpah.core.potions.*;
 import com.isep.hpah.core.levels.*;
 import java.util.List;
-import static com.isep.hpah.core.PrettyText.printSeparator;
+
+import static com.isep.hpah.core.PrettyText.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -72,7 +73,7 @@ public class Main {
         wizard.learnSpell(Spell.getSpells().get(0));
 
         // Afficher les informations de l'utilisateur
-        printSeparator(100);
+        printHeader("Your Wizard Infos");
         System.out.println("\nWelcome, " + wizard.getName() + " to the wizard world! \n" +
                 "You have a " + wizard.getPet().getName() + " as a pet. \n" +
                 "Your wand has a " + wizard.getWand().getCore().getName() + " core.\n" +
@@ -85,6 +86,9 @@ public class Main {
                 for (Potion potion : potions) {
                 System.out.println("- " + potion.getName() + " (+" + potion.getHealthgain() + " health)");
                 }
+        System.out.println("\nIf you're ready to enter the game, press enter");
+        scanner.nextLine();
+        clearConsole();
         printSeparator(100);
         //Afficher le début du jeu, le premier niveau
         System.out.println("\nWelcome to your first year at Hogwarts School of Witchcraft and Wizardry! \n" +

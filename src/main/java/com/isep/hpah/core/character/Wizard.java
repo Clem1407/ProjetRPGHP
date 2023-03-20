@@ -171,15 +171,24 @@ public class Wizard {
 
     public void startBattle(List<AbstractEnemy> enemies) {
         Scanner scanner = new Scanner(System.in);
+        printSeparator(100);
         int defeatedEnemies = 0;
+        int numberofHits = 0;
+        //va me permettre de faire en sorte qu'à partir d'un certain moment on a un sort ou sinon on peut s'enfuir
         while (defeatedEnemies < enemies.size() && this.currenthealth > 0) {
             System.out.println("It's your turn now !");
             System.out.println("What do you want to do ? (1) Cast a spell, (2) drink a potion");
+            if (this.year == 3) {
+                System.out.println(" Ohhhh... It seems you also have an option to (3) run away ");
+            }
             int choice = scanner.nextInt();
             if (choice == 1) {
                 for (AbstractEnemy enemy : enemies) {
                     attack(enemy);
                     defend(enemy);
+                    if (this.year == 3) {
+                        numberofHits++; //permet d'augmenter le nbr de coups portés
+                    }
                     if (enemy.getCurrenthealth() <= 0) {
                         System.out.println("Well done, you defeated " +
                                 enemy.getName());
@@ -193,6 +202,15 @@ public class Wizard {
             else if (choice == 2) {
                 heal();
             }
+            else if (choice == 3 && this.year == 3) {
+                    if (numberofHits >= 3) {
+                        System.out.println("Well done, you ran away and won the level !!!");
+                        break;
+                    }
+                    else {
+                        System.out.println("You tried to run away but couldn't suceed...");
+                    }
+            }
             else {
                 System.out.println("Invalid choice!");
             }
@@ -201,13 +219,16 @@ public class Wizard {
                 printSeparator(100);
                 this.year++; // Augmente l'année du sorcier
                 System.out.println("You just finished your " + this.year + " year at Hogwards, good job !");
-                this.learnSpell(Spell.getSpells().get(this.year)); // Ajoute le sort de l'année actuelle
-                System.out.println("Well done ! You have just learned a new spell, this spell is : " +
-                        this.getKnownSpells().get(this.year).getName());
-                if (this.getHouse().getName().equals("Gryffondor") && this.year == 1) {
-                    this.learnSpell(ForbiddenSpell.getForbiddenSpells().get(6)); // Ajoute le sort de l'année actuelle
-                    System.out.println("Since you are a Gryffondor ! You have also learned another spell which is " +
-                         this.getKnownSpells().get(2).getName());
+                while (this.year < 3) {
+                    this.learnSpell(Spell.getSpells().get(this.year)); // Ajoute le sort de l'année actuelle
+                    System.out.println("Well done ! You have just learned a new spell, this spell is : " +
+                            this.getKnownSpells().get(this.year).getName());
+                    if (this.getHouse().getName().equals("Gryffondor") && this.year == 1) {
+                        this.learnSpell(ForbiddenSpell.getForbiddenSpells().get(6)); // Ajoute le sort de l'année actuelle
+                        System.out.println("Since you are a Gryffondor ! You have also learned another spell which is :" +
+                                this.getKnownSpells().get(2).getName());
+                    }
+                    break;
                 }
                 printSeparator(100);
                 Level.runLevel(this.year, this); // Lance le niveau suivant
