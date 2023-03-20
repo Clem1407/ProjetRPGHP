@@ -179,14 +179,17 @@ public class Wizard {
             System.out.println("It's your turn now !");
             System.out.println("What do you want to do ? (1) Cast a spell, (2) drink a potion");
             if (this.year == 3) {
-                System.out.println(" Ohhhh... It seems you also have an option to (3) run away ");
+                System.out.println(" Ohhhh... It seems you also have an option to (3) run away ?");
             }
             int choice = scanner.nextInt();
             if (choice == 1) {
                 for (AbstractEnemy enemy : enemies) {
+                    printSeparator(100);
                     attack(enemy);
+                    printSeparator(100);
                     defend(enemy);
-                    if (this.year == 3) {
+                    printSeparator(100);
+                    if (this.year == 3 || this.year == 5) {
                         numberofHits++; //permet d'augmenter le nbr de coups portés
                     }
                     if (enemy.getCurrenthealth() <= 0) {
@@ -202,10 +205,14 @@ public class Wizard {
             else if (choice == 2) {
                 heal();
             }
+            //permet de faire en sorte que l'utilisateur ait l'option fuir au niveau 3
             else if (choice == 3 && this.year == 3) {
                     if (numberofHits >= 3) {
                         System.out.println("Well done, you ran away and won the level !!!");
-                        break;
+                        this.year++;
+                        printSeparator(100);
+                        Level.runLevel(this.year, this); // Lance le niveau suivant
+                        return;
                     }
                     else {
                         System.out.println("You tried to run away but couldn't suceed...");

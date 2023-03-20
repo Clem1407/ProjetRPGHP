@@ -32,7 +32,7 @@ public abstract class AbstractEnemy {
 
     @Override
     public String toString() {
-        return "You will have to fight against " + name + " which has a health of " + maxhealth;
+        return "You will have to fight against " + name + " which has a health of " + maxhealth + "\n";
     }
 
 }

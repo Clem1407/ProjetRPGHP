@@ -97,6 +97,5 @@ public class Main {
         printSeparator(100);
         Level level = Level.createLevel(0);
         level.runLevel(0, wizard);
-        printSeparator(100);
     }
 }

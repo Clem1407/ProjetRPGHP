@@ -6,10 +6,12 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import com.isep.hpah.core.spells.Spell;
 import lombok.*;
 
+import static com.isep.hpah.core.PrettyText.clearConsole;
 import static com.isep.hpah.core.PrettyText.printSeparator;
 
 @Getter @Setter
@@ -80,6 +82,7 @@ public class Level extends AbstractLevel {
 
 
     public static void runLevel(int id, Wizard wizard) {
+        Scanner scanner = new Scanner(System.in);
         Level level = Level.createLevel(id);
         int numberOfEnemies = level.getNumberOfEnemies();
         System.out.println("\nThis is level number : " + Level.createLevel(id).getId() +
@@ -96,11 +99,14 @@ public class Level extends AbstractLevel {
         for (AbstractEnemy enemy : enemies) {
             System.out.println(enemy.toString());
             printSeparator(100);
+            System.out.println("\nIf you're ready to start the fight, press enter");
+            scanner.nextLine();
+            clearConsole();
             if (wizard.getHouse().getName().equals("Ravenclaw")) {
                 System.out.println("Since you are a member of Ravenclaw, you are more precise"); }
             wizard.startBattle(enemies);
         }
-        wizard.setYear(wizard.getYear() + 1);
+        //wizard.setYear(wizard.getYear() + 1); Pas utile je pense
     }
 
 
