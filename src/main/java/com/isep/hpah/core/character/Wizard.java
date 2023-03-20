@@ -3,6 +3,7 @@ import com.isep.hpah.core.House;
 import com.isep.hpah.core.Pet;
 import com.isep.hpah.core.potions.*;
 import com.isep.hpah.core.Wand;
+import com.isep.hpah.core.spells.ForbiddenSpell;
 import com.isep.hpah.core.spells.Spell;
 import com.isep.hpah.core.levels.Level;
 import java.util.List;
@@ -88,8 +89,59 @@ public class Wizard {
                 damage += 5;
                 System.out.println("Since you are a member of Slytherin, you do + 5 damage");
             }
-            enemy.takeDamage(damage);
-            System.out.println("You did " + damage + " damage to the enemy!, it only has " + enemy.getCurrenthealth() + " left!");
+            int level = this.year;
+            switch(level) {
+                case 0:
+                    enemy.takeDamage(damage);
+                    System.out.println("You make an object levitates and it falls on the head of troll and did to him " + damage + " damage it only has " + enemy.getCurrenthealth() + " left!");
+                    break;
+                case 1:
+                    enemy.takeDamage(damage);
+                    System.out.println("You did " + damage + " damage to the enemy!, it only has " + enemy.getCurrenthealth() + " left!");
+                    break;
+                case 2:
+                    if (spell.getName() != "Expecto Patronum") {
+                        damage = 0;
+                        enemy.takeDamage(damage);
+                        System.out.println("You did " + damage + " to the enemy, this spell isn't effective on them...");
+                    }
+                    else {
+                        enemy.takeDamage(damage);
+                        System.out.println("Good job, you did " + damage + " damage to the Dementors!, They are running away ");
+                    }
+                    break;
+                case 3:
+                    if (spell.getName() != "Accio") {
+                        damage = 0;
+                        enemy.takeDamage(damage);
+                        System.out.println("You did " + damage + " to the enemy, this spell isn't effective on them...");
+
+                    }
+                    else {
+                        enemy.takeDamage(damage);
+                        System.out.println(" Good job you did " + damage + " damage to the enemy! Continue to bring them close to you, maybe you will be able to run away! ");
+                    }
+                    break;
+                case 4:
+                    enemy.takeDamage(damage);
+                    System.out.println("You did " + damage + " damage to Dolores Jane Umbridge, but she still has " + enemy.getCurrenthealth() + " this doesn't seem very effective..." );
+                    break;
+                case 5:
+                    if (spell.getName() != "Sectumsempra") {
+                        damage = 0;
+                        enemy.takeDamage(damage);
+                        System.out.println("You did " + damage + " to the enemy, this spell isn't effective on them...");
+                    }
+                    else {
+                        enemy.takeDamage(damage);
+                        System.out.println("Well done you did " + damage + " to the enemies, they only have " + enemy.getCurrenthealth() + " left ");
+                    }
+                    break;
+                case 6:
+                    enemy.takeDamage(damage);
+                    System.out.println("You just did " + damage + " to the enemy, it only has " + enemy.getCurrenthealth() + " left !");
+                    break;
+            }
         } else {
             System.out.println("You missed your spell!");
         }
@@ -115,9 +167,6 @@ public class Wizard {
                 System.out.println("The enemy missed its attack!");
             }
         }
-        if (enemy.getCurrenthealth() <= 0) {
-            ;
-        }
     }
 
     public void startBattle(List<AbstractEnemy> enemies) {
@@ -127,39 +176,41 @@ public class Wizard {
             System.out.println("It's your turn now !");
             System.out.println("What do you want to do ? (1) Cast a spell, (2) drink a potion");
             int choice = scanner.nextInt();
-            switch (choice) {
-                case 1:
-                    for (AbstractEnemy enemy : enemies) {
-                        attack(enemy);
-                        defend(enemy);
-                        if (enemy.getCurrenthealth() <= 0) {
-                            System.out.println("Well done, you defeated " +
-                                    enemy.getName());
-                            defeatedEnemies++; // permet de compter le nombre d'ennemi dans le niveau
-                        }
-                        if (defeatedEnemies == enemies.size()) {
-                            break; // Sort de la boucle for si tous les ennemis sont vaincus
-                        }
+            if (choice == 1) {
+                for (AbstractEnemy enemy : enemies) {
+                    attack(enemy);
+                    defend(enemy);
+                    if (enemy.getCurrenthealth() <= 0) {
+                        System.out.println("Well done, you defeated " +
+                                enemy.getName());
+                        defeatedEnemies++; // permet de compter le nombre d'ennemi dans le niveau
                     }
-                    break;
-                case 2:
-                    heal();
-                    break;
-                default:
-                    System.out.println("Invalid choice!");
-                    break;
+                    if (defeatedEnemies == enemies.size()) {
+                        break; // Sort de la boucle for si tous les ennemis sont vaincus
+                    }
+                }
             }
-            if (defeatedEnemies == enemies.size()) {
+            else if (choice == 2) {
+                heal();
+            }
+            else {
+                System.out.println("Invalid choice!");
+            }
+        }
+        if (defeatedEnemies == enemies.size()) {
                 printSeparator(100);
                 this.year++; // Augmente l'année du sorcier
                 System.out.println("You just finished your " + this.year + " year at Hogwards, good job !");
                 this.learnSpell(Spell.getSpells().get(this.year)); // Ajoute le sort de l'année actuelle
                 System.out.println("Well done ! You have just learned a new spell, this spell is : " +
                         this.getKnownSpells().get(this.year).getName());
+                if (this.getHouse().getName().equals("Gryffondor") && this.year == 1) {
+                    this.learnSpell(ForbiddenSpell.getForbiddenSpells().get(6)); // Ajoute le sort de l'année actuelle
+                    System.out.println("Since you are a Gryffondor ! You have also learned another spell which is " +
+                         this.getKnownSpells().get(2).getName());
+                }
                 printSeparator(100);
                 Level.runLevel(this.year, this); // Lance le niveau suivant
-                enemies = null; // Réinitialise la liste d'ennemis pour passer au prochain niveau
-            }
         }
         if (this.currenthealth <= 0) {
             System.out.println("You were defeated by the enemies!");
