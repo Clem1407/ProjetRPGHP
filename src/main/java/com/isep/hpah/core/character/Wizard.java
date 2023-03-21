@@ -13,6 +13,7 @@ import lombok.*;
 import java.util.Objects;
 import java.util.Scanner;
 
+import static com.isep.hpah.core.PrettyText.printHeading;
 import static com.isep.hpah.core.PrettyText.printSeparator;
 
 @Getter @Setter
@@ -192,24 +193,50 @@ public class Wizard {
             if (this.year == 3) {
                 System.out.println(" Ohhhh... It seems you also have an option to (3) run away ?");
             }
+            if (this.year == 5 && this.getHouse().getName().equals("Slytherin")) {
+                System.out.println(" Ohhhh... It seems that since you are member of the Slytherin house, you can also (3) join the Death Eaters ?");
+            }
             int choice = scanner.nextInt();
             if (choice == 1) {
-                for (AbstractEnemy enemy : enemies) {
-                    printSeparator(100);
-                    attack(enemy);
-                    printSeparator(100);
-                    defend(enemy);
-                    printSeparator(100);
-                    if (this.year == 3 || this.year == 4) {
+                if (this.year == 3) {
+                    for (AbstractEnemy enemy : enemies) {
+                        printSeparator(100);
+                        System.out.println("Which enemy do you want to attack? (Enter a number from 1 to " + enemies.size() + ")");
+                        int enemyChoice = scanner.nextInt();
+                        AbstractEnemy target = enemies.get(enemyChoice - 1);
+                        attack(target);
+                        printSeparator(100);
+                        defend(target);
+                        printSeparator(100);
                         numberofHits++; //permet d'augmenter le nbr de coups portés
+                        if (target.getCurrenthealth() <= 0) {
+                            System.out.println("Well done, you defeated " +
+                                    target.getName());
+                            defeatedEnemies++; // permet de compter le nombre d'ennemi dans le niveau
+                        }
+                        if (defeatedEnemies == enemies.size()) {
+                            break; // Sort de la boucle for si tous les ennemis sont vaincus
+                        }
                     }
-                    if (enemy.getCurrenthealth() <= 0) {
-                        System.out.println("Well done, you defeated " +
-                                enemy.getName());
-                        defeatedEnemies++; // permet de compter le nombre d'ennemi dans le niveau
-                    }
-                    if (defeatedEnemies == enemies.size()) {
-                        break; // Sort de la boucle for si tous les ennemis sont vaincus
+                }
+                else {
+                    for (AbstractEnemy enemy : enemies) {
+                        printSeparator(100);
+                        attack(enemy);
+                        printSeparator(100);
+                        defend(enemy);
+                        printSeparator(100);
+                        if (this.year == 3 || this.year == 4) {
+                            numberofHits++; //permet d'augmenter le nbr de coups portés
+                        }
+                        if (enemy.getCurrenthealth() <= 0) {
+                            System.out.println("Well done, you defeated " +
+                                    enemy.getName());
+                            defeatedEnemies++; // permet de compter le nombre d'ennemi dans le niveau
+                        }
+                        if (defeatedEnemies == enemies.size()) {
+                            break; // Sort de la boucle for si tous les ennemis sont vaincus
+                        }
                     }
                 }
             }
@@ -228,6 +255,18 @@ public class Wizard {
                     else {
                         System.out.println("You tried to run away but couldn't suceed...");
                     }
+            }
+            //écrit un petit récit si l'utilisateur est un serpentard qui s'est allié avec les Mangemorts
+            else if (choice == 3 && this.year == 5 && this.getHouse().getName().equals("Slytherin")) {
+                printHeading("You're with the Death Eaters");
+                System.out.println("You have made the fateful decision to join the Death Eaters, forever sealing your fate as a dark wizard.\n" +
+                        "Your life will now be consumed by the pursuit of power and dominance over the wizarding world.\n" +
+                        "You will be feared and hated by those who oppose your ideology, and revered and respected by those who share it.\n" +
+                        "But know that the path you have chosen is one of darkness and cruelty, and that the end you seek may never justify the means.\n" +
+                        "In the end, you may find yourself consumed by the very darkness you sought to wield, forever trapped in a cycle of destruction and despair.\n" +
+                        "This is the end of your adventure, but know that your story is far from over. Your fate is now in your own hands, and only time will tell what kind of wizard you will become.\n" +
+                        "I hope you had fun playing this game, and that it has given you a glimpse into the world of magic and wizardry. Thank you for playing!");
+                System.exit(0);
             }
             else {
                 System.out.println("Invalid choice!");

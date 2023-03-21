@@ -42,7 +42,7 @@ public class Level extends AbstractLevel {
 
         //Création des niveaux en utilisant la liste des enemies dans la classe Enemy et Boss
         levels.add(new Level(1, "The Philosopher’s Stone", "Toilets of the dungeon", Arrays.asList(Troll), "You have to face the evil Troll who is in the toilet next to the Dungeon. To defeat him\n" +
-                "defeat him, you must lift objects and release them when they are above his head."));
+                "you must lift objects and release them when they are above his head."));
 
         levels.add(new Level(2, "The Chamber of Secrets", "Chamber of secrets", Arrays.asList(Basilisk), "You are facing the terrible basilisk. If you are from Griffondor, " +
                 "you can call upon the legendary sword of\n" +
@@ -56,7 +56,7 @@ public class Level extends AbstractLevel {
 
         levels.add(new Level(4, "The Goblet of Fire", "Little Hangleton's Cemetery", Arrays.asList(Voldemort, Peter_Pettigrew),
                 "Unfortunately, you won the Three Wizards Tournament... and the right to die. You are in a cemetery\n" +
-                        "in a graveyard, where Voldemort and Peter Pettigrew are also. Your only chance to escape is to\n" +
+                        "in a graveyard, where Voldemort and Peter Pettigrew are also. Your only chance to escape is \n" +
                         "to get close to the Portkey and lure him to you (Accio!). Don't worry, you'll see\n" +
                         "Voldemort"));
 
