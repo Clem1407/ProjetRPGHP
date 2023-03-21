@@ -261,6 +261,12 @@ public class Wizard {
                     }
                     break;
                 }
+                while (this.year > 4 && this.year < 7) {
+                    this.learnSpell(Spell.getSpells().get(this.year-1)); // Ajoute le sort de l'année actuelle
+                    System.out.println("Well done ! You have just learned a new spell, this spell is : " +
+                            this.getKnownSpells().get(this.year-1).getName());
+                    break;
+                }
                 printSeparator(100);
                 Level.runLevel(this.year, this); // Lance le niveau suivant
         }
