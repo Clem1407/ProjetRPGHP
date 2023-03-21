@@ -9,6 +9,8 @@ import com.isep.hpah.core.levels.Level;
 import java.util.List;
 import java.util.ArrayList;
 import lombok.*;
+
+import java.util.Objects;
 import java.util.Scanner;
 
 import static com.isep.hpah.core.PrettyText.printSeparator;
@@ -73,7 +75,6 @@ public class Wizard {
 
         if (this.getHouse().getName().equals("Ravenclaw")) {
             precision += 0.1;
-            System.out.println("Since you are a member of Ravenclaw, you are more precise");
         }
 
         // On génère un nombre aléatoire entre 0 et 1 et on compare à la précision calculée
@@ -87,7 +88,6 @@ public class Wizard {
             int damage = spell.getDamage();
             if (this.getHouse().getName().equals("Slytherin")) {
                 damage += 5;
-                System.out.println("Since you are a member of Slytherin, you do + 5 damage");
             }
             int level = this.year;
             switch(level) {
@@ -100,18 +100,18 @@ public class Wizard {
                     System.out.println("You did " + damage + " damage to the enemy!, it only has " + enemy.getCurrenthealth() + " left!");
                     break;
                 case 2:
-                    if (spell.getName() != "Expecto Patronum") {
+                    if (!Objects.equals(spell.getName(), "Expecto Patronum")) {
                         damage = 0;
                         enemy.takeDamage(damage);
                         System.out.println("You did " + damage + " to the enemy, this spell isn't effective on them...");
                     }
                     else {
                         enemy.takeDamage(damage);
-                        System.out.println("Good job, you did " + damage + " damage to the Dementors!, They are running away ");
+                        System.out.println("Good job, you did " + damage + " damage to the Dementors!, They are running away !!!");
                     }
                     break;
                 case 3:
-                    if (spell.getName() != "Accio") {
+                    if (!Objects.equals(spell.getName(), "Accio")) {
                         damage = 0;
                         enemy.takeDamage(damage);
                         System.out.println("You did " + damage + " to the enemy, this spell isn't effective on them...");
@@ -123,11 +123,17 @@ public class Wizard {
                     }
                     break;
                 case 4:
+                    if (Objects.equals(spell.getName(), "fireworks")) {
                     enemy.takeDamage(damage);
-                    System.out.println("You did " + damage + " damage to Dolores Jane Umbridge, but she still has " + enemy.getCurrenthealth() + " this doesn't seem very effective..." );
+                    System.out.println("The party is starting now !! explode her");
+                    }
+                    else {
+                    enemy.takeDamage(damage);
+                    System.out.println("You did " + damage + " damage to Dolores Jane Umbridge, but she still has " + enemy.getCurrenthealth() + " this doesn't seem very effective...");
+                    }
                     break;
                 case 5:
-                    if (spell.getName() != "Sectumsempra") {
+                    if (!Objects.equals(spell.getName(), "Sectumsempra")) {
                         damage = 0;
                         enemy.takeDamage(damage);
                         System.out.println("You did " + damage + " to the enemy, this spell isn't effective on them...");
@@ -176,6 +182,11 @@ public class Wizard {
         int numberofHits = 0;
         //va me permettre de faire en sorte qu'à partir d'un certain moment on a un sort ou sinon on peut s'enfuir
         while (defeatedEnemies < enemies.size() && this.currenthealth > 0) {
+            if (this.year == 4 && numberofHits == 4) {
+                this.learnSpell(Spell.getSpells().get(this.year-1)); // Ajoute le sort de l'année actuelle -1 car on a sauté une année
+                System.out.println("Oh it seems you just learned a new spell... It is " +
+                        this.getKnownSpells().get(this.year-1).getName());
+            }
             System.out.println("It's your turn now !");
             System.out.println("What do you want to do ? (1) Cast a spell, (2) drink a potion");
             if (this.year == 3) {
@@ -189,7 +200,7 @@ public class Wizard {
                     printSeparator(100);
                     defend(enemy);
                     printSeparator(100);
-                    if (this.year == 3 || this.year == 5) {
+                    if (this.year == 3 || this.year == 4) {
                         numberofHits++; //permet d'augmenter le nbr de coups portés
                     }
                     if (enemy.getCurrenthealth() <= 0) {
@@ -227,13 +238,26 @@ public class Wizard {
                 this.year++; // Augmente l'année du sorcier
                 System.out.println("You just finished your " + this.year + " year at Hogwards, good job !");
                 while (this.year < 3) {
-                    this.learnSpell(Spell.getSpells().get(this.year)); // Ajoute le sort de l'année actuelle
-                    System.out.println("Well done ! You have just learned a new spell, this spell is : " +
-                            this.getKnownSpells().get(this.year).getName());
-                    if (this.getHouse().getName().equals("Gryffondor") && this.year == 1) {
-                        this.learnSpell(ForbiddenSpell.getForbiddenSpells().get(6)); // Ajoute le sort de l'année actuelle
-                        System.out.println("Since you are a Gryffondor ! You have also learned another spell which is :" +
-                                this.getKnownSpells().get(2).getName());
+                    // va me permettre de modifier les sorts pour les Gryffondor
+                    if (this.getHouse().getName().equals("Gryffondor")) {
+                        this.learnSpell(Spell.getSpells().get(this.year)); // Ajoute le sort de l'année actuelle
+                        System.out.println("Well done ! You have just learned a new spell, this spell is : " +
+                                this.getKnownSpells().get(this.year).getName());
+                        if (this.year == 1) {
+                            this.learnSpell(ForbiddenSpell.getForbiddenSpells().get(6)); // Ajoute le sort de l'année actuelle
+                            System.out.println("Since you are a Gryffondor ! You have also learned another spell which is :" +
+                                    this.getKnownSpells().get(2).getName());
+                        }
+                        else if (this.year == 2) {
+                            this.learnSpell(Spell.getSpells().get(this.year)); // Ajoute le sort de l'année actuelle
+                            System.out.println("Well done ! You have just learned a new spell, this spell is : " +
+                                    this.getKnownSpells().get(this.year+1).getName());
+                        }
+                    }
+                    else {
+                        this.learnSpell(Spell.getSpells().get(this.year)); // Ajoute le sort de l'année actuelle
+                        System.out.println("Well done ! You have just learned a new spell, this spell is : " +
+                                this.getKnownSpells().get(this.year).getName());
                     }
                     break;
                 }

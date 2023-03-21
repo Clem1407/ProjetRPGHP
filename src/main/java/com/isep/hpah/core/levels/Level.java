@@ -104,6 +104,14 @@ public class Level extends AbstractLevel {
             clearConsole();
             if (wizard.getHouse().getName().equals("Ravenclaw")) {
                 System.out.println("Since you are a member of Ravenclaw, you are more precise"); }
+            if (wizard.getHouse().getName().equals("Slytherin")) {
+                System.out.println("Since you are a member of Slytherin, you do + 5 damage"); }
+            if (wizard.getHouse().getName().equals("Gryffondor")) {
+                System.out.println("Since you are a member of Gryffondor, you have a much better resistance");
+            }
+            if (wizard.getHouse().getName().equals("Hufflepuff")) {
+                System.out.println("Since you are a member of Hufflepuff, the potions will heal you more");
+            }
             wizard.startBattle(enemies);
         }
         //wizard.setYear(wizard.getYear() + 1); Pas utile je pense
