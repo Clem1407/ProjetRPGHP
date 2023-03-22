@@ -11,7 +11,7 @@ public class Boss extends AbstractEnemy {
     public Boss() {
         super("Voldemort", 100, 100, 15, 100, 1, 1);
         boss = new ArrayList<>();
-        boss.add(new Boss("Petter Pettigrew",100, 100, 15, 1, 1, 1));
+        boss.add(new Boss("Petter Pettigrew",100, 100, 10, 1, 1, 1));
         boss.add(new Boss("Lord Voldemort",100, 100, 15, 1, 1, 1));
         boss.add(new Boss("Dolores Jane Umbridge",200, 200, 10, 0.9, 1, 1));
         boss.add(new Boss("Bellatrix Lestrange", 50, 50, 12, 0.8, 1, 1));

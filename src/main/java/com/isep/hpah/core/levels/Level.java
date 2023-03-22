@@ -54,10 +54,11 @@ public class Level extends AbstractLevel {
                         "heard about a spell to put them to flight... Expect... Expecta... Ah yes, Expectro Patronum.\n" +
                         "Your goal is to learn the spell, then use it to defeat the Destroyers."));
 
+        // Ajouter les informations sur Voldemort et Peter Pettigrew dans la description du niveau 4
         levels.add(new Level(4, "The Goblet of Fire", "Little Hangleton's Cemetery", Arrays.asList(Voldemort, Peter_Pettigrew),
-                "Unfortunately, you won the Three Wizards Tournament... and the right to die. You are in a cemetery\n" +
-                        "in a graveyard, where Voldemort and Peter Pettigrew are also. Your only chance to escape is \n" +
-                        "to get close to the Portkey and lure him to you (Accio!). Don't worry, you'll see\n" +
+                "\nYou are facing Voldemort and Peter Pettigrew, two of the most dangerous wizards alive. \nVoldemort has " +
+                        Voldemort.getMaxhealth() + " health points and Peter Pettigrew has " + Peter_Pettigrew.getMaxhealth() + " health points. " +
+                        "\nYour only chance to escape is to get close to the Portkey and lure him to you (Accio!). Don't worry, you'll see\n" +
                         "Voldemort"));
 
         levels.add(new Level(5, "The Order of the Phenix", "Hogwarts Examination Hall", Arrays.asList(Dolores),
@@ -70,8 +71,8 @@ public class Level extends AbstractLevel {
                         "Death Eaters."));
 
         levels.add(new Level(7, "The Deathly Hallows", "Poudlard", Arrays.asList(Voldemort, Bellatrix),
-                        "Let's stop stalling and get to the root of the problem. You are facing Voldemort and\n" +
-                        "Bellatrix Lestrange. Be careful, they can kill you with Avada Kedavra at once if you are not\n" +
+                        "Let's stop stalling and get to the root of the problem. You are facing Voldemort which has a health of " + Voldemort.getMaxhealth() + "and\n" +
+                        "Bellatrix Lestrange which has a health of " + Bellatrix.getMaxhealth() + ". Be careful, they can kill you with Avada Kedavra at once if you are not\n" +
                         "are not ready."));
         return levels.get(id);
     }
@@ -97,7 +98,9 @@ public class Level extends AbstractLevel {
         //va permettre de faire ressortir les enemies sous forme de String et pas de tableau
         List<AbstractEnemy> enemies = Level.createLevel(id).getEnemies();
         for (AbstractEnemy enemy : enemies) {
-            System.out.println(enemy.toString());
+            if (numberOfEnemies == 1) {
+                System.out.println(enemy.toString());
+            }
             printSeparator(100);
             System.out.println("\nIf you're ready to start the fight, press enter");
             scanner.nextLine();

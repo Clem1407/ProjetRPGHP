@@ -90,15 +90,16 @@ public class Wizard {
             if (this.getHouse().getName().equals("Slytherin")) {
                 damage += 5;
             }
+            printHeading("ATTACK");
             int level = this.year;
             switch(level) {
                 case 0:
                     enemy.takeDamage(damage);
-                    System.out.println("You make an object levitates and it falls on the head of troll and did to him " + damage + " damage it only has " + enemy.getCurrenthealth() + " left!");
+                    System.out.println("You make an object levitates and it falls on the head of troll and did to him " + damage + " damage. \nIt only has " + enemy.getCurrenthealth() + " left!");
                     break;
                 case 1:
                     enemy.takeDamage(damage);
-                    System.out.println("You did " + damage + " damage to the enemy!, it only has " + enemy.getCurrenthealth() + " left!");
+                    System.out.println("You did " + damage + " damage to the enemy!\n It only has " + enemy.getCurrenthealth() + " left!");
                     break;
                 case 2:
                     if (!Objects.equals(spell.getName(), "Expecto Patronum")) {
@@ -108,7 +109,7 @@ public class Wizard {
                     }
                     else {
                         enemy.takeDamage(damage);
-                        System.out.println("Good job, you did " + damage + " damage to the Dementors!, They are running away !!!");
+                        System.out.println("Good job, you did " + damage + " damage to the Dementors! \nThey are running away !!!");
                     }
                     break;
                 case 3:
@@ -120,13 +121,13 @@ public class Wizard {
                     }
                     else {
                         enemy.takeDamage(damage);
-                        System.out.println(" Good job you did " + damage + " damage to the enemy! Continue to bring them close to you, maybe you will be able to run away! ");
+                        System.out.println(" Good job you did " + damage + " damage to the enemy! \nContinue to bring them close to you, maybe you will be able to run away! ");
                     }
                     break;
                 case 4:
                     if (Objects.equals(spell.getName(), "fireworks")) {
                     enemy.takeDamage(damage);
-                    System.out.println("The party is starting now !! explode her");
+                    System.out.println("The party is starting now !! Explode her");
                     }
                     else {
                     enemy.takeDamage(damage);
@@ -141,12 +142,12 @@ public class Wizard {
                     }
                     else {
                         enemy.takeDamage(damage);
-                        System.out.println("Well done you did " + damage + " to the enemies, they only have " + enemy.getCurrenthealth() + " left ");
+                        System.out.println("Well done you did " + damage + " to the enemy. \nIt only has " + enemy.getCurrenthealth() + " left ");
                     }
                     break;
                 case 6:
                     enemy.takeDamage(damage);
-                    System.out.println("You just did " + damage + " to the enemy, it only has " + enemy.getCurrenthealth() + " left !");
+                    System.out.println("You just did " + damage + " to the enemy. \nIt only has " + enemy.getCurrenthealth() + " left !");
                     break;
             }
         } else {
@@ -155,6 +156,7 @@ public class Wizard {
     }
 
     public void defend(AbstractEnemy enemy) {
+        printHeading("DEFEND");
         if (enemy.getCurrenthealth() > 0 && this.currenthealth > 0) {
             System.out.println("You defend yourself!");
 
@@ -198,10 +200,11 @@ public class Wizard {
             }
             int choice = scanner.nextInt();
             if (choice == 1) {
-                if (this.year == 3) {
+                if (enemies.size() > 1) {
+                    //Permet de laisser à l'utilisateur le choix de l'ennemi qu'il veut attaquer
                     for (AbstractEnemy enemy : enemies) {
                         printSeparator(100);
-                        System.out.println("Which enemy do you want to attack? (Enter a number from 1 to " + enemies.size() + ")");
+                        System.out.println("Which enemy do you want to attack? (1) for " + enemies.get(0).getName() + " or (2) for " + enemies.get(1).getName());
                         int enemyChoice = scanner.nextInt();
                         AbstractEnemy target = enemies.get(enemyChoice - 1);
                         attack(target);
@@ -217,6 +220,7 @@ public class Wizard {
                         if (defeatedEnemies == enemies.size()) {
                             break; // Sort de la boucle for si tous les ennemis sont vaincus
                         }
+                        break;
                     }
                 }
                 else {
@@ -280,17 +284,18 @@ public class Wizard {
                     // va me permettre de modifier les sorts pour les Gryffondor
                     if (this.getHouse().getName().equals("Gryffondor")) {
                         this.learnSpell(Spell.getSpells().get(this.year)); // Ajoute le sort de l'année actuelle
-                        System.out.println("Well done ! You have just learned a new spell, this spell is : " +
-                                this.getKnownSpells().get(this.year).getName());
+                        System.out.println("Well done ! You have just learned a new spell, this spell is : ");
+                                if (this.year == 2) {
+                                    this.getKnownSpells().get(this.year+1).getName();
+
+                                }
+                                else {
+                                    this.getKnownSpells().get(this.year).getName();
+                                }
                         if (this.year == 1) {
                             this.learnSpell(ForbiddenSpell.getForbiddenSpells().get(6)); // Ajoute le sort de l'année actuelle
                             System.out.println("Since you are a Gryffondor ! You have also learned another spell which is :" +
                                     this.getKnownSpells().get(2).getName());
-                        }
-                        else if (this.year == 2) {
-                            this.learnSpell(Spell.getSpells().get(this.year)); // Ajoute le sort de l'année actuelle
-                            System.out.println("Well done ! You have just learned a new spell, this spell is : " +
-                                    this.getKnownSpells().get(this.year+1).getName());
                         }
                     }
                     else {
