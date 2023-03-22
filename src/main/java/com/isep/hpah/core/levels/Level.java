@@ -71,7 +71,7 @@ public class Level extends AbstractLevel {
                         "Death Eaters."));
 
         levels.add(new Level(7, "The Deathly Hallows", "Poudlard", Arrays.asList(Voldemort, Bellatrix),
-                        "Let's stop stalling and get to the root of the problem. You are facing Voldemort which has a health of " + Voldemort.getMaxhealth() + "and\n" +
+                        "Let's stop stalling and get to the root of the problem. You are facing Voldemort which has a health of " + Voldemort.getMaxhealth() + " and\n" +
                         "Bellatrix Lestrange which has a health of " + Bellatrix.getMaxhealth() + ". Be careful, they can kill you with Avada Kedavra at once if you are not\n" +
                         "are not ready."));
         return levels.get(id);

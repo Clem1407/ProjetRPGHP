@@ -187,8 +187,13 @@ public class Wizard {
         while (defeatedEnemies < enemies.size() && this.currenthealth > 0) {
             if (this.year == 4 && numberofHits == 4) {
                 this.learnSpell(Spell.getSpells().get(this.year-1)); // Ajoute le sort de l'année actuelle -1 car on a sauté une année
-                System.out.println("Oh it seems you just learned a new spell... It is " +
-                        this.getKnownSpells().get(this.year-1).getName());
+                System.out.println("Oh it seems you just learned a new spell... It is ");
+                if (this.getHouse().getName().equals("Gryffondor")) {
+                    this.getKnownSpells().get(this.year).getName();
+                }
+                else {
+                    this.getKnownSpells().get(this.year-1).getName();
+                }
             }
             System.out.println("It's your turn now !");
             System.out.println("What do you want to do ? (1) Cast a spell, (2) drink a potion");
@@ -200,7 +205,7 @@ public class Wizard {
             }
             int choice = scanner.nextInt();
             if (choice == 1) {
-                if (enemies.size() > 1) {
+                if (enemies.size() > 1 && defeatedEnemies == 0) {
                     //Permet de laisser à l'utilisateur le choix de l'ennemi qu'il veut attaquer
                     for (AbstractEnemy enemy : enemies) {
                         printSeparator(100);
@@ -306,10 +311,15 @@ public class Wizard {
                     break;
                 }
                 while (this.year > 4 && this.year < 7) {
-                    this.learnSpell(Spell.getSpells().get(this.year-1)); // Ajoute le sort de l'année actuelle
-                    System.out.println("Well done ! You have just learned a new spell, this spell is : " +
-                            this.getKnownSpells().get(this.year-1).getName());
-                    break;
+                        this.learnSpell(Spell.getSpells().get(this.year-1)); // Ajoute le sort de l'année actuelle
+                        System.out.println("Well done ! You have just learned a new spell, this spell is : ");
+                        if (this.getHouse().getName().equals("Gryffondor")) {
+                                this.getKnownSpells().get(this.year).getName();
+                        }
+                        else {
+                                this.getKnownSpells().get(this.year - 1).getName();
+                        }
+                        break;
                 }
                 printSeparator(100);
                 Level.runLevel(this.year, this); // Lance le niveau suivant
