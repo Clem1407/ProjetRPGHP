@@ -1,14 +1,10 @@
 package com.isep.hpah.core.levels;
 import com.isep.hpah.core.character.*;
-import com.isep.hpah.core.*;
-
 import java.util.Arrays;
-import java.util.Random;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import com.isep.hpah.core.spells.Spell;
 import lombok.*;
 
 import static com.isep.hpah.core.PrettyText.clearConsole;

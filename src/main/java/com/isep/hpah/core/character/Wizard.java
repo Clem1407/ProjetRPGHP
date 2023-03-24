@@ -13,8 +13,7 @@ import lombok.*;
 import java.util.Objects;
 import java.util.Scanner;
 
-import static com.isep.hpah.core.PrettyText.printHeading;
-import static com.isep.hpah.core.PrettyText.printSeparator;
+import static com.isep.hpah.core.PrettyText.*;
 
 @Getter @Setter
 public class Wizard {
@@ -28,10 +27,11 @@ public class Wizard {
     private int currenthealth;
     private double resistance;
     private int year;
+    private int damageplus;
 
     public Wizard(String name, Pet pet, Wand wand, House house, List<Spell> knownSpells,
                   int maxhealth, int currenthealth,
-                  double resistance, int year) {
+                  double resistance, int year, int damageplus) {
         this.name = name;
         this.pet = pet;
         this.wand = wand;
@@ -42,6 +42,7 @@ public class Wizard {
         this.currenthealth = currenthealth;
         this.resistance = resistance;
         this.year = year;
+        this.damageplus = damageplus;
 
         PotionRepository potionRepository = new PotionRepository();
         List<Potion> availablePotions = potionRepository.getPotions();
@@ -84,9 +85,12 @@ public class Wizard {
 
     public void attack(AbstractEnemy enemy) {
         Spell spell = chooseSpell();
+        if (damageplus > 0) {
+            System.out.println("You do + " + damageplus + " damage");
+        }
         if (rollAccuracy(spell.getAccuracy())) {
             System.out.println("You cast " + spell.getName() + "!");
-            int damage = spell.getDamage();
+            int damage = spell.getDamage() + damageplus;
             if (this.getHouse().getName().equals("Slytherin")) {
                 damage += 5;
             }
@@ -195,15 +199,30 @@ public class Wizard {
                     this.getKnownSpells().get(this.year-1).getName();
                 }
             }
+            if (this.year == 6 && numberofHits == 4) {
+                this.learnSpell(ForbiddenSpell.getForbiddenSpells().get(7)); // Ajoute le sort de l'année actuelle
+                System.out.println("Oh oh it seems that you just learned a new spell... It seems very powerful, it is... ");
+                if (this.getHouse().getName().equals("Gryffondor")) {
+                    this.getKnownSpells().get(this.year+1).getName();
+                }
+                else {
+                    this.getKnownSpells().get(this.year).getName();
+                }
+            }
+
             System.out.println("It's your turn now !");
             System.out.println("What do you want to do ? (1) Cast a spell, (2) drink a potion");
+
             if (this.year == 3) {
                 System.out.println(" Ohhhh... It seems you also have an option to (3) run away ?");
             }
+
             if (this.year == 5 && this.getHouse().getName().equals("Slytherin")) {
                 System.out.println(" Ohhhh... It seems that since you are member of the Slytherin house, you can also (3) join the Death Eaters ?");
             }
+
             int choice = scanner.nextInt();
+
             if (choice == 1) {
                 if (enemies.size() > 1 && defeatedEnemies == 0) {
                     //Permet de laisser à l'utilisateur le choix de l'ennemi qu'il veut attaquer
@@ -215,8 +234,34 @@ public class Wizard {
                         attack(target);
                         printSeparator(100);
                         defend(target);
-                        printSeparator(100);
                         numberofHits++; //permet d'augmenter le nbr de coups portés
+                        if (enemyChoice == 1 && this.getWand().getCore().getName().equals("Phoenix feather") && this.year == 6) {
+                            clearConsole();
+                            System.out.println("OHH you have the same core as Voldemort !!!! \n" +
+                                    "In the wizarding world, there was a battle that would go down in history as one\n" +
+                                    "of the most epic clashes of all time. It was the battle between the dark wizard Voldemort and the boy who lived,\n" +
+                                    "Harry Potter. What made this particular fight so unique was that both of their wands contained the same core - a phoenix feather from Fawkes.\n" +
+                                    "The two wizards stood at opposite ends of the battlefield, their eyes locked in a \n" +
+                                    "fierce stare. Voldemort was determined to rid the world of Harry Potter once and for all, \n" +
+                                    "and Harry knew that the fate of the wizarding world hung in the balance.\n" +
+                                    "As the first spells were cast, it became clear that this was not going to be an easy fight. \n" +
+                                    "Harry and Voldemort were evenly matched, each displaying incredible magical skill and strength.\n" +
+                                    " The spells they cast ricocheted off each other, causing explosions and filling the air with smoke and debris.\n" +
+                                    "The battle raged on, both sides taking heavy hits and delivering crushing blows. Harry's friends, Ron and Hermione, \n" +
+                                    "were fighting alongside him, and the three of them worked together to create a shield that protected them \n" +
+                                    "from Voldemort's most deadly spells.\n" +
+                                    "In the end, it was Harry who emerged victorious. He used the power of love, \n" +
+                                    "something that Voldemort could never understand, to channel the magic of their \n" +
+                                    "twin wands and overpower the dark wizard. Voldemort's wand was destroyed, and \n" +
+                                    "he was defeated once and for all.\n" +
+                                    "As Harry stood, exhausted but triumphant, he looked down at his wand and felt \n" +
+                                    "a sense of awe. The fact that his wand contained the same core as Voldemort's had \n" +
+                                    "been a source of fear for him for so long, but now he saw it as a symbol of his own strength \n" +
+                                    "and determination. Harry knew that he had truly earned the title of the boy who lived, and he \n" +
+                                    "would always remember this battle as the one that proved he was worthy of it.");
+                            System.exit(0);
+                        }
+                        printSeparator(100);
                         if (target.getCurrenthealth() <= 0) {
                             System.out.println("Well done, you defeated " +
                                     target.getName());
@@ -249,22 +294,24 @@ public class Wizard {
                     }
                 }
             }
+
             else if (choice == 2) {
                 heal();
             }
+
             //permet de faire en sorte que l'utilisateur ait l'option fuir au niveau 3
             else if (choice == 3 && this.year == 3) {
-                    if (numberofHits >= 3) {
-                        System.out.println("Well done, you ran away and won the level !!!");
-                        this.year++;
-                        printSeparator(100);
-                        Level.runLevel(this.year, this); // Lance le niveau suivant
-                        return;
-                    }
-                    else {
-                        System.out.println("You tried to run away but couldn't suceed...");
-                    }
+                if (numberofHits >= 3) {
+                    System.out.println("Well done, you ran away and won the level !!!");
+                    this.year++;
+                    printSeparator(100);
+                    Level.runLevel(this.year, this); // Lance le niveau suivant
+                }
+                else {
+                    System.out.println("You tried to run away but couldn't suceed...");
+                }
             }
+
             //écrit un petit récit si l'utilisateur est un serpentard qui s'est allié avec les Mangemorts
             else if (choice == 3 && this.year == 5 && this.getHouse().getName().equals("Slytherin")) {
                 printHeading("You're with the Death Eaters");
@@ -282,47 +329,7 @@ public class Wizard {
             }
         }
         if (defeatedEnemies == enemies.size()) {
-                printSeparator(100);
-                this.year++; // Augmente l'année du sorcier
-                System.out.println("You just finished your " + this.year + " year at Hogwards, good job !");
-                while (this.year < 3) {
-                    // va me permettre de modifier les sorts pour les Gryffondor
-                    if (this.getHouse().getName().equals("Gryffondor")) {
-                        this.learnSpell(Spell.getSpells().get(this.year)); // Ajoute le sort de l'année actuelle
-                        System.out.println("Well done ! You have just learned a new spell, this spell is : ");
-                                if (this.year == 2) {
-                                    this.getKnownSpells().get(this.year+1).getName();
-
-                                }
-                                else {
-                                    this.getKnownSpells().get(this.year).getName();
-                                }
-                        if (this.year == 1) {
-                            this.learnSpell(ForbiddenSpell.getForbiddenSpells().get(6)); // Ajoute le sort de l'année actuelle
-                            System.out.println("Since you are a Gryffondor ! You have also learned another spell which is :" +
-                                    this.getKnownSpells().get(2).getName());
-                        }
-                    }
-                    else {
-                        this.learnSpell(Spell.getSpells().get(this.year)); // Ajoute le sort de l'année actuelle
-                        System.out.println("Well done ! You have just learned a new spell, this spell is : " +
-                                this.getKnownSpells().get(this.year).getName());
-                    }
-                    break;
-                }
-                while (this.year > 4 && this.year < 7) {
-                        this.learnSpell(Spell.getSpells().get(this.year-1)); // Ajoute le sort de l'année actuelle
-                        System.out.println("Well done ! You have just learned a new spell, this spell is : ");
-                        if (this.getHouse().getName().equals("Gryffondor")) {
-                                this.getKnownSpells().get(this.year).getName();
-                        }
-                        else {
-                                this.getKnownSpells().get(this.year - 1).getName();
-                        }
-                        break;
-                }
-                printSeparator(100);
-                Level.runLevel(this.year, this); // Lance le niveau suivant
+                endlevel();
         }
         if (this.currenthealth <= 0) {
             System.out.println("You were defeated by the enemies!");
@@ -358,6 +365,73 @@ public class Wizard {
         }
         chosenPotion.setUsed(true);
         System.out.println("You used the potion " + chosenPotion.getName() + " and now have " + this.currenthealth + " health");
+    }
+
+    private void endlevel() {
+        Scanner scanner = new Scanner(System.in);
+        printSeparator(100);
+        this.year++; // Augmente l'année du sorcier
+        if (this.year == 7) {
+            clearConsole();
+            printHeader("YOU FINISHED");
+            System.out.println("Congratulations, wizard! You have completed all seven years at Hogwarts School of Witchcraft\n" +
+                    " and Wizardry, and you have triumphed over all of the challenges that were thrown your way. You have\n" +
+                    " proven yourself to be a skilled and powerful wizard, and your dedication and hard work have paid off.\n" +
+                    " You can now proudly call yourself a graduate of the most prestigious wizarding school in the world.\n" +
+                    " Well done!");
+        }
+        System.out.println("You just finished your " + this.year + " year at Hogwards, good job !");
+        System.out.println("You can now choose to get back some health or to do more damages, what do you want to do ? ");
+        System.out.println("Do you want to add + 5 to your health (1) " + this.currenthealth + " or add + 2 to your damage (2) ");
+        int bonus = scanner.nextInt();
+        switch (bonus) {
+            case 1 :
+                currenthealth += 5;
+                break;
+            case 2 :
+                damageplus += 2;
+                break;
+            default:
+                System.out.println("Invalid choice!");
+        }
+        while (this.year < 3) {
+            // va me permettre de modifier les sorts pour les Gryffondor
+            if (this.getHouse().getName().equals("Gryffondor")) {
+                this.learnSpell(Spell.getSpells().get(this.year)); // Ajoute le sort de l'année actuelle
+                if (this.year == 2) {
+                    System.out.println("Well done ! You have just learned a new spell, this spell is : " +
+                    this.getKnownSpells().get(this.year + 1).getName());
+
+                }
+                if (this.year == 1) {
+                    System.out.println("Well done ! You have just learned a new spell, this spell is : " +
+                            this.getKnownSpells().get(this.year).getName());
+                    this.learnSpell(ForbiddenSpell.getForbiddenSpells().get(6)); // Ajoute le sort de l'année actuelle
+                    System.out.println("Since you are a Gryffondor ! You have also learned another spell which is :" +
+                            this.getKnownSpells().get(2).getName());
+                }
+            }
+            else {
+                this.learnSpell(Spell.getSpells().get(this.year)); // Ajoute le sort de l'année actuelle
+                System.out.println("Well done ! You have just learned a new spell, this spell is : " +
+                        this.getKnownSpells().get(this.year).getName());
+            }
+            break;
+        }
+        while (this.year > 4 && this.year < 7) {
+            this.learnSpell(Spell.getSpells().get(this.year-1)); // Ajoute le sort de l'année actuelle
+            if (this.getHouse().getName().equals("Gryffondor")) {
+                System.out.println("Well done ! You have just learned a new spell, this spell is : " +
+                this.getKnownSpells().get(this.year).getName());
+            }
+            else {
+                System.out.println("Well done ! You have just learned a new spell, this spell is : " +
+                this.getKnownSpells().get(this.year - 1).getName());
+            }
+            break;
+        }
+        printSeparator(100);
+        Level.runLevel(this.year, this); // Lance le niveau suivant
     }
 
 }
