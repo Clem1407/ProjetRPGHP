@@ -113,7 +113,6 @@ public class Level extends AbstractLevel {
             }
             wizard.startBattle(enemies);
         }
-        //wizard.setYear(wizard.getYear() + 1); Pas utile je pense
     }
 
 

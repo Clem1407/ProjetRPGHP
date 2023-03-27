@@ -191,23 +191,13 @@ public class Wizard {
         while (defeatedEnemies < enemies.size() && this.currenthealth > 0) {
             if (this.year == 4 && numberofHits == 4) {
                 this.learnSpell(Spell.getSpells().get(this.year-1)); // Ajoute le sort de l'année actuelle -1 car on a sauté une année
-                System.out.println("Oh it seems you just learned a new spell... It is ");
-                if (this.getHouse().getName().equals("Gryffondor")) {
-                    this.getKnownSpells().get(this.year).getName();
-                }
-                else {
-                    this.getKnownSpells().get(this.year-1).getName();
-                }
+                System.out.println("Oh it seems you just learned a new spell... It is... ");
+                this.getKnownSpells().get(this.year-1).getName();
             }
             if (this.year == 6 && numberofHits == 4) {
                 this.learnSpell(ForbiddenSpell.getForbiddenSpells().get(7)); // Ajoute le sort de l'année actuelle
                 System.out.println("Oh oh it seems that you just learned a new spell... It seems very powerful, it is... ");
-                if (this.getHouse().getName().equals("Gryffondor")) {
-                    this.getKnownSpells().get(this.year+1).getName();
-                }
-                else {
-                    this.getKnownSpells().get(this.year).getName();
-                }
+                this.getKnownSpells().get(this.year).getName();
             }
 
             System.out.println("It's your turn now !");
@@ -379,6 +369,7 @@ public class Wizard {
                     " proven yourself to be a skilled and powerful wizard, and your dedication and hard work have paid off.\n" +
                     " You can now proudly call yourself a graduate of the most prestigious wizarding school in the world.\n" +
                     " Well done!");
+            System.exit(0);
         }
         System.out.println("You just finished your " + this.year + " year at Hogwards, good job !");
         System.out.println("You can now choose to get back some health or to do more damages, what do you want to do ? ");
