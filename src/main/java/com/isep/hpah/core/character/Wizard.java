@@ -58,15 +58,21 @@ public class Wizard {
     }
 
     public Spell chooseSpell() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Choose a spell to cast: ");
-        int i = 1;
-        for (Spell spell : knownSpells) {
-            System.out.println(i + ". " + spell.getName());
-            i++;
+        while (true) { // boucle infinie jusqu'à ce qu'un choix valide soit fait
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Choose a spell to cast: ");
+            int i = 1;
+            for (Spell spell : knownSpells) {
+                System.out.println(i + ". " + spell.getName());
+                i++;
+            }
+            int choice = scanner.nextInt();
+            if (choice < 1 || choice > knownSpells.size()) {
+                System.out.println("Invalid choice. Please enter a valid choice.");
+            } else {
+                return knownSpells.get(choice - 1);
+            }
         }
-        int choice = scanner.nextInt();
-        return knownSpells.get(choice - 1);
     }
 
 
@@ -169,16 +175,22 @@ public class Wizard {
 
             // On vérifie si l'ennemi réussit son attaque
             if (rollAccuracy(accuracy)) {
+                if (this.year == 6 && enemy.getName().equals("Lord Voldemort") && Math.random() < 0.01) {
+                        this.currenthealth -= 1000;
+                        System.out.println("OH noooooo it seems Voldemort used avada kedavra and touched you... " +
+                                "\n You have been killed instantly... Try again");
+                        System.exit(0);
+                }
                 System.out.println("The enemy attacked you and did " + enemy.getDamage() + " damage!");
                 this.currenthealth -= enemy.getDamage(); //this permet d'indiquer que cette variable appartient à Wizard
                 if (this.getHouse().getName().equals("Gryffondor")) {
-                    this.currenthealth += this.resistance;
-                    System.out.println("Since you are a member of Gryffondor, with your resistance, you're able to gain back " + getResistance() + " health points");
+                        this.currenthealth += this.resistance;
+                        System.out.println("Since you are a member of Gryffondor, with your resistance, you're able to gain back " + getResistance() + " health points");
                 }
                 System.out.println("You have " + this.currenthealth + " health points left!");
-            } else {
-                System.out.println("The enemy missed its attack!");
-            }
+                } else {
+                    System.out.println("The enemy missed its attack!");
+                }
         }
     }
 
@@ -226,30 +238,7 @@ public class Wizard {
                         defend(target);
                         numberofHits++; //permet d'augmenter le nbr de coups portés
                         if (enemyChoice == 1 && this.getWand().getCore().getName().equals("Phoenix feather") && this.year == 6) {
-                            clearConsole();
-                            System.out.println("OHH you have the same core as Voldemort !!!! \n" +
-                                    "In the wizarding world, there was a battle that would go down in history as one\n" +
-                                    "of the most epic clashes of all time. It was the battle between the dark wizard Voldemort and the boy who lived,\n" +
-                                    "Harry Potter. What made this particular fight so unique was that both of their wands contained the same core - a phoenix feather from Fawkes.\n" +
-                                    "The two wizards stood at opposite ends of the battlefield, their eyes locked in a \n" +
-                                    "fierce stare. Voldemort was determined to rid the world of Harry Potter once and for all, \n" +
-                                    "and Harry knew that the fate of the wizarding world hung in the balance.\n" +
-                                    "As the first spells were cast, it became clear that this was not going to be an easy fight. \n" +
-                                    "Harry and Voldemort were evenly matched, each displaying incredible magical skill and strength.\n" +
-                                    " The spells they cast ricocheted off each other, causing explosions and filling the air with smoke and debris.\n" +
-                                    "The battle raged on, both sides taking heavy hits and delivering crushing blows. Harry's friends, Ron and Hermione, \n" +
-                                    "were fighting alongside him, and the three of them worked together to create a shield that protected them \n" +
-                                    "from Voldemort's most deadly spells.\n" +
-                                    "In the end, it was Harry who emerged victorious. He used the power of love, \n" +
-                                    "something that Voldemort could never understand, to channel the magic of their \n" +
-                                    "twin wands and overpower the dark wizard. Voldemort's wand was destroyed, and \n" +
-                                    "he was defeated once and for all.\n" +
-                                    "As Harry stood, exhausted but triumphant, he looked down at his wand and felt \n" +
-                                    "a sense of awe. The fact that his wand contained the same core as Voldemort's had \n" +
-                                    "been a source of fear for him for so long, but now he saw it as a symbol of his own strength \n" +
-                                    "and determination. Harry knew that he had truly earned the title of the boy who lived, and he \n" +
-                                    "would always remember this battle as the one that proved he was worthy of it.");
-                            System.exit(0);
+                            endVoldemort();
                         }
                         printSeparator(100);
                         if (target.getCurrenthealth() <= 0) {
@@ -423,6 +412,33 @@ public class Wizard {
         }
         printSeparator(100);
         Level.runLevel(this.year, this); // Lance le niveau suivant
+    }
+
+    public void endVoldemort() {
+        clearConsole();
+        System.out.println("OHH you have the same core as Voldemort !!!! \n" +
+                "In the wizarding world, there was a battle that would go down in history as one\n" +
+                "of the most epic clashes of all time. It was the battle between the dark wizard Voldemort and the boy who lived,\n" +
+                "Harry Potter. What made this particular fight so unique was that both of their wands contained the same core - a phoenix feather from Fawkes.\n" +
+                "The two wizards stood at opposite ends of the battlefield, their eyes locked in a \n" +
+                "fierce stare. Voldemort was determined to rid the world of Harry Potter once and for all, \n" +
+                "and Harry knew that the fate of the wizarding world hung in the balance.\n" +
+                "As the first spells were cast, it became clear that this was not going to be an easy fight. \n" +
+                "Harry and Voldemort were evenly matched, each displaying incredible magical skill and strength.\n" +
+                " The spells they cast ricocheted off each other, causing explosions and filling the air with smoke and debris.\n" +
+                "The battle raged on, both sides taking heavy hits and delivering crushing blows. Harry's friends, Ron and Hermione, \n" +
+                "were fighting alongside him, and the three of them worked together to create a shield that protected them \n" +
+                "from Voldemort's most deadly spells.\n" +
+                "In the end, it was Harry who emerged victorious. He used the power of love, \n" +
+                "something that Voldemort could never understand, to channel the magic of their \n" +
+                "twin wands and overpower the dark wizard. Voldemort's wand was destroyed, and \n" +
+                "he was defeated once and for all.\n" +
+                "As Harry stood, exhausted but triumphant, he looked down at his wand and felt \n" +
+                "a sense of awe. The fact that his wand contained the same core as Voldemort's had \n" +
+                "been a source of fear for him for so long, but now he saw it as a symbol of his own strength \n" +
+                "and determination. Harry knew that he had truly earned the title of the boy who lived, and he \n" +
+                "would always remember this battle as the one that proved he was worthy of it.");
+        System.exit(0);
     }
 
 }
