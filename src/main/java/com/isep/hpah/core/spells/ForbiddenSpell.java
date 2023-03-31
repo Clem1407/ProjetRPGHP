@@ -17,6 +17,6 @@ public class ForbiddenSpell extends AbstractSpell {
     }
     static {
         spells.add(new Spell(" Sword of Gryffindor", "The sword is known for its ability to imbue the wielder with courage and strength", 40, 0.9));
-        spells.add(new Spell("avada kedavra", "used to instantly kill its target", 1000, 0.1));
+        spells.add(new Spell("avada kedavra", "used to instantly kill its target", 1000, 0.01));
     }
 }

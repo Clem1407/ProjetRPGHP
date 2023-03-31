@@ -175,6 +175,7 @@ public class Wizard {
 
             // On vérifie si l'ennemi réussit son attaque
             if (rollAccuracy(accuracy)) {
+                //ajout d'un petit pourcentage que Voldemort puisse oneshot
                 if (this.year == 6 && enemy.getName().equals("Lord Voldemort") && Math.random() < 0.01) {
                         this.currenthealth -= 1000;
                         System.out.println("OH noooooo it seems Voldemort used avada kedavra and touched you... " +
