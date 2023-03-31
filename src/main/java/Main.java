@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Random;
 import com.isep.hpah.core.*;
 import com.isep.hpah.core.character.*;
 import com.isep.hpah.core.spells.Spell;
