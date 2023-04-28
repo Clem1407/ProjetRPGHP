@@ -79,7 +79,7 @@ public class Wizard {
     //Prends en compte l'accuracy 1 étant parfaite et 0 étant la pire
     public boolean rollAccuracy(double accuracy) {
         // On calcule la précision en fonction du niveau donné en argument
-        double precision = 1 - (1 - accuracy) / 2;
+        double precision = accuracy * 0.5 + 0.5;
 
         if (this.getHouse().getName().equals("Ravenclaw")) {
             precision += 0.1;
