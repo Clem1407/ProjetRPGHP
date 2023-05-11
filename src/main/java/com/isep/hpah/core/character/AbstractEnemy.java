@@ -1,6 +1,8 @@
 package com.isep.hpah.core.character;
 import lombok.*;
 
+import java.util.Map;
+
 @Getter @Setter
 public abstract class AbstractEnemy {
     private String name;
